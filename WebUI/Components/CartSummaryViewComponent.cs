@@ -14,7 +14,7 @@ public class CartSummaryViewComponent : ViewComponent
 
     public string Invoke()
     {
-        return  _cart.Lines.Count().ToString();
+        return  _cart.Lines.Count().ToString();  
        
     }
 }
