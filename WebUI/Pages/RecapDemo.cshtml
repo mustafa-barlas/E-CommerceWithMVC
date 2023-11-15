@@ -1,0 +1,15 @@
+﻿@page
+@model WebUI.Pages.RecapDemoModel
+@{
+}
+
+@{
+    Layout = null;
+}
+<div class="my-3">
+    <h6 class="display-6"> Hello  @Model?.FullName </h6>
+    <form method="post" asp-page="/recapdemo">
+        <input class="form-control" name="name" placeholder="name"/>
+        <input type="submit" class="form-control btn btn-primary my-3"/>
+    </form>
+</div>

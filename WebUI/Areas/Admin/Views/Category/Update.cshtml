@@ -1,0 +1,47 @@
+﻿@model CategoryDtoForUpdate
+
+<div class="text-center">
+    <div class="display-6">Update Categories</div>
+</div>
+
+<form method="post" asp-action="Update" asp-controller="Category" asp-area="Admin" enctype="multipart/form-data">
+
+
+    <input type="hidden" asp-for="Id" />
+
+
+
+    <div class="form-group my-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+
+    <div class="form-group my-3">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+
+
+    <div class="from-group my-3">
+        <img class="rounded shadow" width="150" src="@Model?.ImageUrl" />
+    </div>
+
+    <div class="form-group my-3">
+        <label asp-for="ImageUrl"></label>
+        <input type="file" name="file" class="form-control" asp-append-version="true" />
+    </div>
+
+    <div class="form-group my-3">
+        <div class="btn-group">
+            <button class="btn btn-primary" type="submit">
+                <i class="fa fa-save"></i>
+                Update
+            </button>
+            <a asp-action="Index" class="btn btn-outline-primary">
+                <i class="fa fa-list"></i>
+                Categories
+            </a>
+        </div>
+    </div>
+</form>

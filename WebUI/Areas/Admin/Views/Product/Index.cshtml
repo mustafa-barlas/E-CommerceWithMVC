@@ -1,0 +1,215 @@
+﻿@model IEnumerable<Product>
+
+
+
+<div class="col-md-12">
+    <div class="white_shd full margin_bottom_30">
+        <div class="full graph_head">
+            <div class="heading1 margin_0">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col heading1 margin_0">
+                            Products
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <a class="btn btn-success" type="button" asp-controller="Product" asp-action="Create">Create</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="table_section padding_infor_info">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Product Name</th>
+                            <th>Description</th>
+                            <th>Showcase</th>
+                            <th>Price</th>
+                            <th>Colors</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Product item in Model)
+                        {
+
+
+                            <tr>
+                                <td>@item.ProductId</td>
+                                
+                                <td>
+                                    <img class="border border-light rounded" src="@item?.ImageUrl" alt="@item?.ProductName"
+                                         width="150" />
+                                </td>
+                                <td>@item.ProductName</td>
+                                <td>@item.Description</td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" checked="@item.ShowCase" disabled />
+                                    </div>
+                                </td>
+                                <td>@item.Price.Value.ToString("C0")</td>
+
+                                <td>@foreach (var item2 in item.ProductColors)
+                                    {
+                                        <li>@item2.Color.Name</li>
+                                    }
+                                </td>
+                                <td>
+
+                                    <div class="btn-group">
+                                        <a data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-warning"
+                                           asp-action="Update" asp-route-id="@item.ProductId">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger"
+                                           asp-action="Delete" asp-route-id="@item.ProductId">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a data-toggle="tooltip" data-placement="top" title="Web" class="btn btn-info"
+                                           target="_blank" asp-area="" asp-controller="Product" asp-action="Get"
+                                           asp-route-id="@item.ProductId">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/pluto-1.0.0/js/jquery.min.js"></script>
+<script src="/pluto-1.0.0/js/popper.min.js"></script>
+<script src="/pluto-1.0.0/js/bootstrap.min.js"></script>
+<!-- wow animation -->
+<script src="/pluto-1.0.0/js/animate.js"></script>
+<!-- select country -->
+<script src="/pluto-1.0.0/js/bootstrap-select.js"></script>
+<!-- owl carousel -->
+<script src="/pluto-1.0.0/js/owl.carousel.js"></script>
+<!-- chart js -->
+<script src="/pluto-1.0.0/js/Chart.min.js"></script>
+<script src="/pluto-1.0.0/js/Chart.bundle.min.js"></script>
+<script src="/pluto-1.0.0/js/utils.js"></script>
+<script src="/pluto-1.0.0/js/analyser.js"></script>
+<!-- nice scrollbar -->
+<script src="/pluto-1.0.0/js/perfect-scrollbar.min.js"></script>
+<script>
+    var ps = new PerfectScrollbar('#sidebar');
+</script>
+<!-- fancy box js -->
+<script src="/pluto-1.0.0/js/jquery-3.3.1.min.js"></script>
+<script src="/pluto-1.0.0/js/jquery.fancybox.min.js"></script>
+<!-- custom js -->
+<script src="/pluto-1.0.0/js/custom.js"></script>
+<!-- calendar file css -->
+<script src="/pluto-1.0.0/js/semantic.min.js"></script>
+
+
+@* <div class="col-md-9">
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Image Url</th>
+                <th>Product Name</th>
+                <th>Showcase</th>
+                <th>Price</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Product prd in Model)
+            {
+                <tr>
+                    <td>@prd.ProductId</td>
+                    <td>
+                        <img class="border border-light rounded" src="@prd?.ImageUrl" alt="@prd?.ProductName"
+                             width="50" />
+                    </td>
+                    <td>@prd.ProductName</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" checked="@prd.ShowCase" disabled />
+                        </div>
+                    </td>
+                    <td>@prd.Price.Value.ToString("C")</td>
+                    <td>
+                        <div class="btn-group">
+                            <a data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-warning"
+                               asp-action="Update" asp-route-id="@prd.ProductId">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger"
+                               asp-action="Delete" asp-route-id="@prd.ProductId">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                            <a data-toggle="tooltip" data-placement="top" title="Web" class="btn btn-info"
+                               target="_blank" asp-area="" asp-controller="Product" asp-action="Get"
+                               asp-route-id="@prd.ProductId">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+    <!-- Block2 -->
+    <div class="block2">
+        <div class="block2-pic hov-img0">
+            <img src="/cozastore-master/images/product-08.jpg" alt="IMG-PRODUCT">
+
+            <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                Quick View
+            </a>
+        </div>
+
+        <div class="block2-txt flex-w flex-t p-t-14">
+            <div class="block2-txt-child1 flex-col-l ">
+                <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                    Pieces Metallic Printed
+                </a>
+
+                <span class="stext-105 cl3">
+                    $18.96
+                </span>
+            </div>
+
+            <div class="block2-txt-child2 flex-r p-t-3">
+                <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                    <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
+                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+ *@
+
+
+
+
+@* @section Scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+} *@

@@ -1,0 +1,76 @@
+﻿@model Order
+
+@{
+    ViewBag.Title = "Process Order";
+    Layout = "_Layout";
+}
+
+
+<body class="animsition">
+
+<!-- Header -->
+<header class="header-v4">
+    <!-- Header desktop -->
+    <div class="container-menu-desktop">
+        <!-- Topbar -->
+
+
+
+    </div>
+
+    <!-- Header Mobile -->
+    <!-- Menu Mobile -->
+    <!-- Modal Search -->
+
+</header>
+
+<!-- Cart -->
+<!-- Product -->
+<div class="bg0 m-t-23 p-b-140">
+<div class="container">
+    <div class="text-center" asp-validation-summary="ModelOnly"></div>
+
+    <form method="post" asp-action="Checkout" >
+        <div class="form-group my-3">
+            <label asp-for="Name" ></label>
+            <input class="form-control" asp-for="Name" >
+        </div>
+
+        <div class="form-group my-3">
+            <label asp-for="Line1" ></label>
+            <input class="form-control" asp-for="Line1" >
+        </div>
+        <div class="form-group my-3">
+            <label asp-for="Line1" ></label>
+            <input class="form-control" asp-for="Line1" >
+        </div>
+
+        <div class="form-group my-3">
+            <label asp-for="Line2" ></label>
+            <input class="form-control" asp-for="Line2" >
+        </div>
+
+        <div class="form-group my-3">
+            <label asp-for="Line3" ></label>
+            <input class="form-control" asp-for="Line3" >
+        </div>
+
+        <div class="form-group my-3">
+            <label asp-for="City" ></label>
+            <input class="form-control" asp-for="City" >
+        </div>
+
+        <div class="form-group my-3">
+            <input  asp-for="GiftWrap">
+            <label asp-for="GiftWrap">Gift wrap these items.</label>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">
+                Complete Order
+            </button>
+        </div>
+    </form>
+</div>
+</div>
+</body>

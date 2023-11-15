@@ -1,0 +1,100 @@
+﻿@page
+@using Business.Abstract
+@{
+}
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+
+@functions
+{
+    [BindProperty(SupportsGet = true)]
+    public string? OrderId { get; set; }
+
+}
+
+
+
+<body class="animsition">
+
+
+    <header class="header-v4">
+
+        <div class="container-menu-desktop">
+        </div>
+
+
+
+    </header>
+
+
+    <div class="bg0 m-t-23 p-b-140">
+        <div class="container">
+
+            <button type="button" class="btn btn-primary launch" data-toggle="modal" data-target="#staticBackdrop">
+                <i class="fa fa-info"></i> Get information
+            </button>
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body ">
+                            <div class="text-right"> <i class="fa fa-close close" data-dismiss="modal"></i> </div>
+
+                            <div class="px-4 py-5">
+
+                                @* <h5 class="text-uppercase"> @ViewBag.data</h5> *@
+
+
+
+                                <h4 class="mt-5 theme-color mb-5">Thanks for your order @OrderId</h4>
+
+                                <span class="theme-color">Payment Summary</span>
+                                <div class="mb-3">
+                                    <hr class="new1">
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <span class="font-weight-bold">Date</span>
+                                   @*  <span class="text-muted">@ViewBag.data</span>  *@
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <small>Shipping</small>
+                                    <small>$17.70</small>
+                                </div>
+
+
+                                <div class="d-flex justify-content-between">
+                                    <small>Tax</small>
+                                    <small>$6.85</small>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-3">
+                                    <span class="font-weight-bold">Total</span>
+                                    <span class="font-weight-bold theme-color">@ViewBag.data2</span>
+                                </div>
+
+
+
+                                <div class="text-center mt-5">
+
+
+                                    <button class="btn btn-primary">Track your order</button>
+                                    <a asp-action="Index" asp-controller="Home"> <button class="btn btn-dark">Go Back home</button></a>
+
+
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
