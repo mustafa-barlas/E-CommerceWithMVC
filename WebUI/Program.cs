@@ -1,9 +1,12 @@
 using Autofac;
-using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
+using Core.Utilities.Security.Encryption;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using WebUI.Infrastructure.Extensions;
-using WebUI.Models;
+using TokenOptions = Core.Utilities.Security.Jwt.TokenOptions;
 
 namespace WebUI
 {
@@ -15,13 +18,32 @@ namespace WebUI
             builder.Services.AddControllersWithViews();
 
 
+            var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
+
             var mvcBuilder = builder.Services.AddRazorPages();
             if (builder.Environment.IsDevelopment())
             {
                 mvcBuilder.AddRazorRuntimeCompilation();
             }
 
-           
 
             builder.Services.ConfigureSession();
             builder.Services.ConfigureRouting();

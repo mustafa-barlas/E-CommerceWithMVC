@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Concrete\" />
     <Folder Include="DependencyResolvers\Autofac\" />
+    <Folder Include="Constants\" />
   </ItemGroup>
 
   <ItemGroup>
