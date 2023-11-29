@@ -12,7 +12,7 @@ namespace WebUI.Controllers
 			_categoryService = categoryService;
 		}
 
-		public IActionResult Index()
+		public IActionResult Index()  
 		{
 			var result = _categoryService.GetAll().Data;
 			return View(result);

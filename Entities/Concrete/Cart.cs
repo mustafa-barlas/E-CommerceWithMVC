@@ -33,4 +33,7 @@ public class Cart
     public decimal ComputeTotalValue() => Lines.Sum(x => x.Product.Price.Value * x.Quantity);
 
     public virtual  void Clear () => Lines.Clear();
+
+    
+
 }

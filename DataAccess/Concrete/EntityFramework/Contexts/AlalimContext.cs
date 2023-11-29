@@ -1,10 +1,11 @@
-﻿using Core.Entities.Concrete;
-using Entities.Concrete;
+﻿using Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework.Contexts;
 
-public class AlalimContext : DbContext
+public class AlalimContext : IdentityDbContext<IdentityUser>
 {
 
     public DbSet<Product> Products { get; set; }
@@ -21,11 +22,11 @@ public class AlalimContext : DbContext
 
     public DbSet<ProductSize> ProductSizes { get; set; }
 
-    public DbSet<User> Users { get; set; }
+    //public DbSet<User> Users { get; set; }
 
-    public DbSet<OperationClaim> OperationClaims { get; set; }
+    //public DbSet<OperationClaim> OperationClaims { get; set; }
 
-    public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+    //public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,6 +39,9 @@ public class AlalimContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Product>()
             .HasOne(x => x.Category)
             .WithMany(x => x.Products)

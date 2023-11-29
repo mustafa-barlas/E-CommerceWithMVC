@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Core.DataAccess.EntityFramework;
 
 public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity> where TEntity : class, IEntity, new()
-where TContext : DbContext, new()
+where TContext : DbContext , new()
 {
 
 

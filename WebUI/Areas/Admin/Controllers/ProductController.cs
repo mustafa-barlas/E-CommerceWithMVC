@@ -1,10 +1,8 @@
 ﻿using Business.Abstract;
-using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
 using Entities.Dtos.ProductDto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebUI.Areas.Admin.Controllers
 {
@@ -63,8 +61,8 @@ namespace WebUI.Areas.Admin.Controllers
             
 
             _productService.CreateProduct(productDto,selectedColors);
-            var result = _productService.GetAll().Data.Last();
-            _productColorService.CreateProductColor(result.ProductId,selectedColors);
+            Product? product = _productService.GetAll().Data.Last();
+            _productColorService.CreateProductColor(product.ProductId,selectedColors);
 
             ViewBag.Colors = _colorService.GetAll().ToList();
             return RedirectToAction("Index");

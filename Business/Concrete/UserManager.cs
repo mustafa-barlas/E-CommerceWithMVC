@@ -13,11 +13,7 @@ public class UserManager : IUserService
         _userDal = userDal;
     }
 
-    public List<OperationClaim> GetClaims(User user)
-    {
-        return _userDal.GetClaims(user);
-    }
-
+    
     public void Add(User user)
     {
         _userDal.Add(user);
@@ -26,5 +22,10 @@ public class UserManager : IUserService
     public User GetByMail(string email)
     {
         return _userDal.FindByConditionAndAsNoTracking(x => x.Email == email, true);
+    }
+
+    public List<OperationClaim> GetClaims(User user)
+    {
+        throw new NotImplementedException();
     }
 }
