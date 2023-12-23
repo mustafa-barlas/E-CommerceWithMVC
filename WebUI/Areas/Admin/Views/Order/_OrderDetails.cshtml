@@ -1,6 +1,6 @@
 ﻿@model Order
 @{
-    var total = @Model.Lines.Sum(c => c.Product.Price * c.Quantity);
+    var total = @Model.ProductOrders.Sum(c => c.Product.Price * c.Quantity);
 }
 
 <div class="row shadow my-3">
@@ -8,26 +8,41 @@
         <h5 class="display-5 text-center">
             <i class="fa fa-address-book text-danger"></i>
             <br />
-            @Model?.Name
+            @(Model.Address.User.FullName ?? "Undefined")
         </h5>
-        <p>@Model?.Line1</p>
-        <p>@Model?.Line2</p>
-        <p>@Model?.Line3</p>
-        <p>@Model?.City</p>
+        <p>Address Title :  @(Model.Address.Title ?? "Undefined")</p>
+        <p>City :  @(Model.Address.City.Name ?? "Undefined")</p>
+        <p>District :  @(Model.Address.District ?? "Undefined")</p>
+        <p>Street :  @(Model.Address.Street ?? "Undefined")</p>
+        <p>Address :  @(Model.Address.DetailedAddress ?? "Undefined")</p>
+        <p>Phone Number :  @(Model.Address.PhoneNumber ?? "Undefined")</p>
+
         <p class="rounded-2 p-3">
             <span class="bg-warning p-2">Shipped</span>
-            <span class="bg-info p-2">@(Model.Shipped.HasValue ? "Completed" : "In Progress")</span>
+            @{
+                if (Model.Cancel == true)
+                {
+                    <span class="bg-info p-2">@(Model.Shipped.Value ? "The process is completed" : "The process is continuing ")</span> 
+                }
+                else
+                {
+                    <span>Order Canceled</span>
+                }
+            }
+           
+           
         </p>
     </div>
     <div class="col-md-9">
-        <h6 class="display-6 mt-3 text-center">
+        <h3 class="display-6 mt-3 text-center">
             Cart
-        </h6>
+        </h3>
         <ul class="list-group">
-            @foreach (var item in Model?.Lines)
+            @foreach (var item in Model?.ProductOrders)
             {
                 <li class="list-group-item d-flex justify-content-between brand">
                     @item.Product.ProductName
+                    <p>  Color : @item.Product.Color.Name</p>
                     <b>
                         @item.Quantity * @item.Product.Price.Value.ToString("C0")
                         = @((item.Quantity * item.Product.Price).Value.ToString("C0"))
@@ -35,8 +50,7 @@
                 </li>
 
                 <li class="list-group-item d-flex justify-content-between brand">
-                    <img src="@item.Product.ImageUrl" />
-                    
+                    <img src="@item.Product.ImageUrl" width="300" height="200" />
                 </li>
             }
             <li class="list-group-item d-flex justify-content-between text-danger">
@@ -47,10 +61,31 @@
         <div class="text-center mt-2 p-2">
             <form method="post" asp-action="Complete" asp-controller="Order" asp-area="Admin" asp-route-id="@Model.OrderId">
                 <input type="hidden" name="id" value="@Model.OrderId" />
-                <button type="submit" class="btn btn-primary" disabled="@Model?.Shipped">
-                    Complete
+                <button type="submit" class="btn btn-dark" disabled="@Model?.Shipped">
+
+                    @{
+                        if (Model.Shipped.Value)
+                        {
+                            <span>The process is Completed </span>
+                        }
+                        else
+                        {
+                            <span>Complete</span>
+                        }
+                    }
+
+
+                </button>
+                
+            </form>
+
+            <form method="post" asp-action="Cancel" asp-controller="Order" asp-area="Admin" asp-route-id="@Model.OrderId">
+                <input type="hidden" name="id" value="@Model.OrderId" />
+                <button type="submit" class="btn btn-danger" disabled="@(Model.Cancel == false)">
+                    Cancel
                 </button>
             </form>
         </div>
     </div>
 </div>
+

@@ -1,7 +1,11 @@
-﻿namespace WebUI.Infrastructure.Extensions;
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace WebUI.Infrastructure.Extensions;
 
 public static class ApplicationExtension
 {
+
+
     public static void ConfigureLocalization(this WebApplication app)
     {
         app.UseRequestLocalization(options =>
@@ -12,4 +16,7 @@ public static class ApplicationExtension
         });
     }
 
+
 }
+
+

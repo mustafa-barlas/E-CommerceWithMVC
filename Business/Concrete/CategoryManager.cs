@@ -26,8 +26,7 @@ public class CategoryManager : ICategoryService
 
     public void DeleteCategory(Category category)
     {
-        var entity = _categoryDal.Get(x => x.Id == category.Id, true);
-        _categoryDal.Delete(entity);
+        _categoryDal.Delete(category);
     }
 
     public List<Category> FindAllWithAsNoTracking(bool trackChanges)
@@ -43,16 +42,20 @@ public class CategoryManager : ICategoryService
 
     public IDataResult<List<Category>> GetAll()
     {
-        return new SuccessDataResult<List<Category>>(_categoryDal.GetAll());
+        return new SuccessDataResult<List<Category>>(_categoryDal.GetAll().ToList());
     }
-
+    public IDataResult<List<Category>> GetActiveCategories()
+    {
+        return new SuccessDataResult<List<Category>>(_categoryDal.GetAll().Where(x => x.Status == true).ToList());
+    }
 
     public CategoryDtoForUpdate GetOneCategoryForUpdate(int id, bool trackChanges)
     {
         var result = FindByConditionWithAsNoTracking(id, trackChanges);
 
-        CategoryDtoForUpdate categoryDto = _mapper.Map<CategoryDtoForUpdate>(result);
-        return categoryDto;
+        var categoryUpdate = _mapper.Map<CategoryDtoForUpdate>(result);
+        return categoryUpdate;
+
     }
 
     public void UpdateCategory(CategoryDtoForUpdate dtoForUpdate)

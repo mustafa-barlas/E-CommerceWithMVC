@@ -17,35 +17,76 @@ namespace DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Entities.Concrete.CartLine", b =>
+            modelBuilder.Entity("Entities.Concrete.Address", b =>
                 {
-                    b.Property<int>("CartLineId")
+                    b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartLineId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AddressId"));
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<string>("DetailedAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.HasKey("AddressId");
 
-                    b.HasKey("CartLineId");
+                    b.HasIndex("CityId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("ProductId");
+                    b.ToTable("Addresses");
 
-                    b.ToTable("CartLine");
+                    b.HasData(
+                        new
+                        {
+                            AddressId = 1,
+                            CityId = 1,
+                            DetailedAddress = "Yeni mahale abc apartman no: 45 daire:6",
+                            District = "Beşiktaş",
+                            PhoneNumber = "0152455252",
+                            Street = "Abc sokak",
+                            Title = "Ev Adresi",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            AddressId = 2,
+                            CityId = 2,
+                            DetailedAddress = "Yeni mahale abc apartman no: 45 daire:6",
+                            District = "Mamak",
+                            PhoneNumber = "0152455252",
+                            Street = "Abc sokak",
+                            Title = "İş Adresi",
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("Entities.Concrete.Category", b =>
@@ -57,20 +98,102 @@ namespace DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImageUrl = "/img/c3.jpg",
+                            Name = "Smart Phone",
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ImageUrl = "/img/c2.jpg",
+                            Name = "Apple",
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImageUrl = "/img/c1.jpg",
+                            Name = "Galaxy Family",
+                            Status = true
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Concrete.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("CityId");
+
+                    b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            CityId = 1,
+                            Name = "İstanbul",
+                            Status = true
+                        },
+                        new
+                        {
+                            CityId = 2,
+                            Name = "Ankara",
+                            Status = true
+                        },
+                        new
+                        {
+                            CityId = 3,
+                            Name = "Bursa",
+                            Status = true
+                        },
+                        new
+                        {
+                            CityId = 4,
+                            Name = "Balıkesir",
+                            Status = true
+                        },
+                        new
+                        {
+                            CityId = 5,
+                            Name = "Çanakale",
+                            Status = true
+                        },
+                        new
+                        {
+                            CityId = 6,
+                            Name = "Antalya",
+                            Status = true
+                        });
                 });
 
             modelBuilder.Entity("Entities.Concrete.Color", b =>
@@ -85,9 +208,120 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Colors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Red",
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Blue",
+                            Status = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Yellow",
+                            Status = true
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Identity.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Customer"
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Identity.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "okan@gmail.com",
+                            FirstName = "Okan",
+                            IsActive = true,
+                            LastName = "Kara",
+                            Password = "123456",
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "ceyda@gmail.com",
+                            FirstName = "Ceyda",
+                            IsActive = true,
+                            LastName = "Yıldırım",
+                            Password = "123456",
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("Entities.Concrete.Order", b =>
@@ -98,23 +332,14 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Cancel")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("GiftWrap")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Line1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Line2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Line3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderedAt")
                         .HasColumnType("datetime2");
@@ -122,7 +347,14 @@ namespace DataAccess.Migrations
                     b.Property<bool?>("Shipped")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderId");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -138,11 +370,13 @@ namespace DataAccess.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ColorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Price")
@@ -152,10 +386,10 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductSizeId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("ShowCase")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<string>("Summary")
@@ -165,393 +399,234 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ProductSizeId");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.ProductColor", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ColorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "ColorId");
-
                     b.HasIndex("ColorId");
 
-                    b.ToTable("ProductColors");
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            CategoryId = 1,
+                            ColorId = 1,
+                            Description = "256 GB",
+                            ImageUrl = "/img/1.jpg",
+                            Price = 699m,
+                            ProductName = "Iphone 11 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "Silver"
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CategoryId = 2,
+                            ColorId = 2,
+                            Description = "256 GB",
+                            ImageUrl = "/img/2.jpg",
+                            Price = 799m,
+                            ProductName = "Iphone 12 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "Black"
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            CategoryId = 3,
+                            ColorId = 3,
+                            Description = "256 GB",
+                            ImageUrl = "/img/3.jpg",
+                            Price = 899m,
+                            ProductName = "Iphone 13 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "White"
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            CategoryId = 1,
+                            ColorId = 1,
+                            Description = "256 GB",
+                            ImageUrl = "/img/4.jpg",
+                            Price = 999m,
+                            ProductName = "Iphone 14 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "White"
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            CategoryId = 2,
+                            ColorId = 2,
+                            Description = "256 GB",
+                            ImageUrl = "/img/5.jpg",
+                            Price = 1099m,
+                            ProductName = "Iphone 15 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "White"
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            CategoryId = 3,
+                            ColorId = 3,
+                            Description = "256 GB",
+                            ImageUrl = "/img/6.jpg",
+                            Price = 1199m,
+                            ProductName = "Iphone 16 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "White"
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            CategoryId = 1,
+                            ColorId = 1,
+                            Description = "256 GB",
+                            ImageUrl = "/img/7.jpg",
+                            Price = 1299m,
+                            ProductName = "Iphone 17 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "White"
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            CategoryId = 2,
+                            ColorId = 2,
+                            Description = "256 GB",
+                            ImageUrl = "/img/8.jpg",
+                            Price = 1399m,
+                            ProductName = "Iphone 18 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "White"
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            CategoryId = 3,
+                            ColorId = 3,
+                            Description = "256 GB",
+                            ImageUrl = "/img/9.jpg",
+                            Price = 1499m,
+                            ProductName = "Iphone 19 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "White"
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            CategoryId = 3,
+                            ColorId = 1,
+                            Description = "256 GB",
+                            ImageUrl = "/img/10.jpg",
+                            Price = 1599m,
+                            ProductName = "Iphone 20 Pro Max",
+                            ShowCase = true,
+                            Status = true,
+                            Summary = "White"
+                        });
                 });
 
-            modelBuilder.Entity("Entities.Concrete.ProductSize", b =>
+            modelBuilder.Entity("Entities.Concrete.ProductOrder", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int?>("OrderID")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductSizes");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.ProductTag", b =>
-                {
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductID")
                         .HasColumnType("int");
 
-                    b.Property<int>("TagId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.HasKey("OrderID", "ProductID");
 
-                    b.HasKey("ProductId", "TagId");
+                    b.HasIndex("ProductID");
 
-                    b.HasIndex("TagId");
-
-                    b.ToTable("ProductTag");
+                    b.ToTable("ProductOrders");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Tag", b =>
+            modelBuilder.Entity("Entities.Concrete.Address", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("Entities.Concrete.City", "City")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CityId");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.HasOne("Entities.Concrete.Identity.User", "User")
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Navigation("City");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Entities.Concrete.Identity.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasOne("Entities.Concrete.Identity.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Entities.Concrete.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Entities.Concrete.CartLine", b =>
-                {
-                    b.HasOne("Entities.Concrete.Order", null)
-                        .WithMany("Lines")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("Entities.Concrete.Product", "Product")
+                    b.HasOne("Entities.Concrete.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
-                    b.Navigation("Product");
+                    b.HasOne("Entities.Concrete.Identity.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Product", b =>
                 {
                     b.HasOne("Entities.Concrete.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Entities.Concrete.ProductSize", "ProductSize")
-                        .WithMany()
-                        .HasForeignKey("ProductSizeId");
+                    b.HasOne("Entities.Concrete.Color", "Color")
+                        .WithMany("Products")
+                        .HasForeignKey("ColorId");
 
                     b.Navigation("Category");
 
-                    b.Navigation("ProductSize");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.ProductColor", b =>
-                {
-                    b.HasOne("Entities.Concrete.Color", "Color")
-                        .WithMany("ProductColors")
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Concrete.Product", "Product")
-                        .WithMany("ProductColors")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Color");
-
-                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.ProductTag", b =>
+            modelBuilder.Entity("Entities.Concrete.ProductOrder", b =>
                 {
+                    b.HasOne("Entities.Concrete.Order", "Order")
+                        .WithMany("ProductOrders")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Entities.Concrete.Product", "Product")
-                        .WithMany("ProductTags")
-                        .HasForeignKey("ProductId")
+                        .WithMany("ProductOrders")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Concrete.Tag", "Tag")
-                        .WithMany("ProductTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
-
-                    b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Entities.Concrete.Category", b =>
@@ -559,26 +634,36 @@ namespace DataAccess.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("Entities.Concrete.City", b =>
+                {
+                    b.Navigation("Addresses");
+                });
+
             modelBuilder.Entity("Entities.Concrete.Color", b =>
                 {
-                    b.Navigation("ProductColors");
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Identity.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Identity.User", b =>
+                {
+                    b.Navigation("Addresses");
+
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Order", b =>
                 {
-                    b.Navigation("Lines");
+                    b.Navigation("ProductOrders");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Product", b =>
                 {
-                    b.Navigation("ProductColors");
-
-                    b.Navigation("ProductTags");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Tag", b =>
-                {
-                    b.Navigation("ProductTags");
+                    b.Navigation("ProductOrders");
                 });
 #pragma warning restore 612, 618
         }

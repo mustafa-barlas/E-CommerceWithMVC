@@ -1,78 +1,99 @@
-﻿<script>
-	$('.js-pscroll').each(function () {
-		$(this).css('position', 'relative');
-		$(this).css('overflow', 'hidden');
-		var ps = new PerfectScrollbar(this, {
-			wheelSpeed: 1,
-			scrollingThreshold: 1000,
-			wheelPropagation: false,
-		});
+﻿
 
-		$(window).on('resize', function () {
-			ps.update();
-		})
-	});
+<script>
+    $('.js-pscroll').each(function () {
+        $(this).css('position', 'relative');
+        $(this).css('overflow', 'hidden');
+        var ps = new PerfectScrollbar(this, {
+            wheelSpeed: 1,
+            scrollingThreshold: 1000,
+            wheelPropagation: false,
+        });
+
+        $(window).on('resize', function () {
+            ps.update();
+        })
+    });
 </script>
 
 <script>
-	$('.js-addwish-b2').on('click', function (e) {
-		e.preventDefault();
-	});
 
-	$('.js-addwish-b2').each(function () {
-		var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-		$(this).on('click', function () {
-			swal(nameProduct, "is added to wishlist !", "success");
+    $('.js-addwish-b2').on('click', function (e) {
+        e.preventDefault();
 
-			$(this).addClass('js-addedwish-b2');
-			$(this).off('click');
-		});
-	});
+        var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+        var productId = $(this).data('product-id');
 
-	$('.js-addwish-detail').each(function () {
-		var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+        $.ajax({
+            url: '/Favorite/AddToFavorites', 
+            type: 'POST', 
+            data: { productId: productId },
+            success: function (data) {
+                if (data.success) {
+                    swal({
+                        title: `${nameProduct} is added to favorites!`,
+                        text: "Do you want to view your favorites?",
+                        icon: "success",
+                        buttons: {
+                            cancel: "No",
+                            confirm: "Yes"
+                        }
+                    }).then((value) => {
+                        if (value) {
+                           
+                            window.location.href = '/Favorite/GetFavorites/'; 
+                        }
+                    });
 
-		$(this).on('click', function () {
-			swal(nameProduct, "is added to wishlist !", "success");
+                    $(this).addClass('js-addedwish-b2');
+                    $(this).off('click');
+                } else {
+                    swal({
+                        title: "Error",
+                        text: `${nameProduct} has already been added to favorites!`,
+                        icon: "error",
+                        button: "OK"
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Error",
+                    text: 'An error occurred while processing your request.',
+                    icon: "error",
+                    button: "OK"
+                });
+            }
+        });
+    });
+</script>
 
-			$(this).addClass('js-addedwish-detail');
-			$(this).off('click');
-		});
-	});
 
-	/*---------------------------------------------*/
 
-	$('.js-addcart-detail').each(function () {
-		var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-		$(this).on('click', function () {
-			swal(nameProduct, "is added to cart !", "success");
-		});
-	});
-
+<script>
+    $('.gallery-lb').each(function () { // the containers for all your galleries
+        $(this).magnificPopup({
+            delegate: 'a', // the selector for gallery item
+            type: 'image',
+            gallery: {
+                enabled: true
+            },
+            mainClass: 'mfp-fade'
+        });
+    });
 </script>
 
 <script>
-	$('.gallery-lb').each(function () { // the containers for all your galleries
-		$(this).magnificPopup({
-			delegate: 'a', // the selector for gallery item
-			type: 'image',
-			gallery: {
-				enabled: true
-			},
-			mainClass: 'mfp-fade'
-		});
-	});
+    $('.parallax100').parallax100();
 </script>
 
 <script>
-	$('.parallax100').parallax100();
+    $(".js-select2").each(function () {
+        $(this).select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $(this).next('.dropDownSelect2')
+        });
+    })
 </script>
 
-<script>
-	$(".js-select2").each(function () {
-		$(this).select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $(this).next('.dropDownSelect2')
-		});
-	})
-</script>
+

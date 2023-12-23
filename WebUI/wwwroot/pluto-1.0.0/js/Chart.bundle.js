@@ -7469,9 +7469,9 @@ module.exports = function(Chart) {
 				// Model
 				line._model = {
 					// Appearance
-					// The default behavior of lines is to break at null values, according
+					// The default behavior of ProductOrder is to break at null values, according
 					// to https://github.com/chartjs/Chart.js/issues/2435#issuecomment-216718158
-					// This option gives lines the ability to span gaps
+					// This option gives ProductOrder the ability to span gaps
 					spanGaps: dataset.spanGaps ? dataset.spanGaps : options.spanGaps,
 					tension: custom.tension ? custom.tension : helpers.valueOrDefault(dataset.lineTension, lineElementOptions.tension),
 					backgroundColor: custom.backgroundColor ? custom.backgroundColor : (dataset.backgroundColor || lineElementOptions.backgroundColor),
@@ -12236,7 +12236,7 @@ module.exports = function(Chart) {
 		},
 
 		// Actually draw the scale on the canvas
-		// @param {rectangle} chartArea : the area of the chart to draw full grid lines on
+		// @param {rectangle} chartArea : the area of the chart to draw full grid ProductOrder on
 		draw: function(chartArea) {
 			var me = this;
 			var options = me.options;
@@ -12382,7 +12382,7 @@ module.exports = function(Chart) {
 				});
 			});
 
-			// Draw all of the tick labels, tick marks, and grid lines at the correct places
+			// Draw all of the tick labels, tick marks, and grid ProductOrder at the correct places
 			helpers.each(itemsToDraw, function(itemToDraw) {
 				if (gridLines.display) {
 					context.save();
@@ -12823,10 +12823,10 @@ module.exports = function(Chart) {
 		var height = model.yPadding * 2; // Tooltip Padding
 		var width = 0;
 
-		// Count of all lines in the body
+		// Count of all ProductOrder in the body
 		var body = model.body;
 		var combinedBodyLength = body.reduce(function(count, bodyItem) {
-			return count + bodyItem.before.length + bodyItem.lines.length + bodyItem.after.length;
+			return count + bodyItem.before.length + bodyItem.ProductOrder.length + bodyItem.after.length;
 		}, 0);
 		combinedBodyLength += model.beforeBody.length + model.afterBody.length;
 
@@ -12836,13 +12836,13 @@ module.exports = function(Chart) {
 		var bodyFontSize = model.bodyFontSize;
 		var footerFontSize = model.footerFontSize;
 
-		height += titleLineCount * titleFontSize; // Title Lines
+		height += titleLineCount * titleFontSize; // Title ProductOrder
 		height += titleLineCount ? (titleLineCount - 1) * model.titleSpacing : 0; // Title Line Spacing
 		height += titleLineCount ? model.titleMarginBottom : 0; // Title's bottom Margin
-		height += combinedBodyLength * bodyFontSize; // Body Lines
+		height += combinedBodyLength * bodyFontSize; // Body ProductOrder
 		height += combinedBodyLength ? (combinedBodyLength - 1) * model.bodySpacing : 0; // Body Line Spacing
 		height += footerLineCount ? model.footerMarginTop : 0; // Footer Margin
-		height += footerLineCount * (footerFontSize); // Footer Lines
+		height += footerLineCount * (footerFontSize); // Footer ProductOrder
 		height += footerLineCount ? (footerLineCount - 1) * model.footerSpacing : 0; // Footer Line Spacing
 
 		// Title width
@@ -12858,11 +12858,11 @@ module.exports = function(Chart) {
 		ctx.font = helpers.fontString(bodyFontSize, model._bodyFontStyle, model._bodyFontFamily);
 		helpers.each(model.beforeBody.concat(model.afterBody), maxLineWidth);
 
-		// Body lines may include some extra width due to the color box
+		// Body ProductOrder may include some extra width due to the color box
 		widthPadding = model.displayColors ? (bodyFontSize + 2) : 0;
 		helpers.each(body, function(bodyItem) {
 			helpers.each(bodyItem.before, maxLineWidth);
-			helpers.each(bodyItem.lines, maxLineWidth);
+			helpers.each(bodyItem.ProductOrder, maxLineWidth);
 			helpers.each(bodyItem.after, maxLineWidth);
 		});
 
@@ -13026,18 +13026,18 @@ module.exports = function(Chart) {
 			var title = callbacks.title.apply(me, arguments);
 			var afterTitle = callbacks.afterTitle.apply(me, arguments);
 
-			var lines = [];
-			lines = pushOrConcat(lines, beforeTitle);
-			lines = pushOrConcat(lines, title);
-			lines = pushOrConcat(lines, afterTitle);
+			var ProductOrder = [];
+			ProductOrder = pushOrConcat(ProductOrder, beforeTitle);
+			ProductOrder = pushOrConcat(ProductOrder, title);
+			ProductOrder = pushOrConcat(ProductOrder, afterTitle);
 
-			return lines;
+			return ProductOrder;
 		},
 
 		// Args are: (tooltipItem, data)
 		getBeforeBody: function() {
-			var lines = this._options.callbacks.beforeBody.apply(this, arguments);
-			return helpers.isArray(lines) ? lines : lines !== undefined ? [lines] : [];
+			var ProductOrder = this._options.callbacks.beforeBody.apply(this, arguments);
+			return helpers.isArray(ProductOrder) ? ProductOrder : ProductOrder !== undefined ? [ProductOrder] : [];
 		},
 
 		// Args are: (tooltipItem, data)
@@ -13049,11 +13049,11 @@ module.exports = function(Chart) {
 			helpers.each(tooltipItems, function(tooltipItem) {
 				var bodyItem = {
 					before: [],
-					lines: [],
+					ProductOrder: [],
 					after: []
 				};
 				pushOrConcat(bodyItem.before, callbacks.beforeLabel.call(me, tooltipItem, data));
-				pushOrConcat(bodyItem.lines, callbacks.label.call(me, tooltipItem, data));
+				pushOrConcat(bodyItem.ProductOrder, callbacks.label.call(me, tooltipItem, data));
 				pushOrConcat(bodyItem.after, callbacks.afterLabel.call(me, tooltipItem, data));
 
 				bodyItems.push(bodyItem);
@@ -13064,11 +13064,11 @@ module.exports = function(Chart) {
 
 		// Args are: (tooltipItem, data)
 		getAfterBody: function() {
-			var lines = this._options.callbacks.afterBody.apply(this, arguments);
-			return helpers.isArray(lines) ? lines : lines !== undefined ? [lines] : [];
+			var ProductOrder = this._options.callbacks.afterBody.apply(this, arguments);
+			return helpers.isArray(ProductOrder) ? ProductOrder : ProductOrder !== undefined ? [ProductOrder] : [];
 		},
 
-		// Get the footer and beforeFooter and afterFooter lines
+		// Get the footer and beforeFooter and afterFooter ProductOrder
 		// Args are: (tooltipItem, data)
 		getFooter: function() {
 			var me = this;
@@ -13078,12 +13078,12 @@ module.exports = function(Chart) {
 			var footer = callbacks.footer.apply(me, arguments);
 			var afterFooter = callbacks.afterFooter.apply(me, arguments);
 
-			var lines = [];
-			lines = pushOrConcat(lines, beforeFooter);
-			lines = pushOrConcat(lines, footer);
-			lines = pushOrConcat(lines, afterFooter);
+			var ProductOrder = [];
+			ProductOrder = pushOrConcat(ProductOrder, beforeFooter);
+			ProductOrder = pushOrConcat(ProductOrder, footer);
+			ProductOrder = pushOrConcat(ProductOrder, afterFooter);
 
-			return lines;
+			return ProductOrder;
 		},
 
 		update: function(changed) {
@@ -13152,7 +13152,7 @@ module.exports = function(Chart) {
 				});
 
 
-				// Build the Text Lines
+				// Build the Text ProductOrder
 				model.title = me.getTitle(tooltipItems, data);
 				model.beforeBody = me.getBeforeBody(tooltipItems, data);
 				model.body = me.getBody(tooltipItems, data);
@@ -13305,20 +13305,20 @@ module.exports = function(Chart) {
 				pt.y += bodyFontSize + bodySpacing;
 			};
 
-			// Before body lines
+			// Before body ProductOrder
 			ctx.fillStyle = mergeOpacity(vm.bodyFontColor, opacity);
 			helpers.each(vm.beforeBody, fillLineOfText);
 
 			var drawColorBoxes = vm.displayColors;
 			xLinePadding = drawColorBoxes ? (bodyFontSize + 2) : 0;
 
-			// Draw body lines now
+			// Draw body ProductOrder now
 			helpers.each(body, function(bodyItem, i) {
 				var textColor = mergeOpacity(vm.labelTextColors[i], opacity);
 				ctx.fillStyle = textColor;
 				helpers.each(bodyItem.before, fillLineOfText);
 
-				helpers.each(bodyItem.lines, function(line) {
+				helpers.each(bodyItem.ProductOrder, function(line) {
 					// Draw Legend-like boxes if needed
 					if (drawColorBoxes) {
 						// Fill a white rect so that colours merge nicely if the opacity is < 1
@@ -13345,7 +13345,7 @@ module.exports = function(Chart) {
 			// Reset back to 0 for after body
 			xLinePadding = 0;
 
-			// After body lines
+			// After body ProductOrder
 			helpers.each(vm.afterBody, fillLineOfText);
 			pt.y -= bodySpacing; // Remove last body spacing
 		},
@@ -16144,7 +16144,7 @@ var Legend = Element.extend({
 			if (isHorizontal) {
 				// Labels
 
-				// Width of each line of legend boxes. Labels wrap onto multiple lines when there are too many to fit on one
+				// Width of each line of legend boxes. Labels wrap onto multiple ProductOrder when there are too many to fit on one
 				var lineWidths = me.lineWidths = [0];
 				var totalHeight = me.legendItems.length ? fontSize + (labelOpts.padding) : 0;
 
@@ -17729,15 +17729,15 @@ module.exports = function(Chart) {
 		 * Where it does, we store that angle and that index.
 		 *
 		 * After finding the largest index and angle we calculate how much we need to remove
-		 * from the shape radius to move the point inwards by that x.
+		 * from the ItemSize radius to move the point inwards by that x.
 		 *
-		 * We average the left and right distances to get the maximum shape radius that can fit in the box
+		 * We average the left and right distances to get the maximum ItemSize radius that can fit in the box
 		 * along with labels.
 		 *
 		 * Once we have that, we can find the centre point for the chart, by taking the x text protrusion
 		 * on each side, removing that from the size, halving it and adding the left x protrusion width.
 		 *
-		 * This will mean we have a shape fitted to the canvas, as large as it can be with the labels
+		 * This will mean we have a ItemSize fitted to the canvas, as large as it can be with the labels
 		 * and position it in the most space efficient manner
 		 *
 		 * https://dl.dropboxusercontent.com/u/34601363/yeahscience.gif
@@ -17893,7 +17893,7 @@ module.exports = function(Chart) {
 			ctx.closePath();
 			ctx.stroke();
 		} else {
-			// Draw straight lines connecting each index
+			// Draw straight ProductOrder connecting each index
 			var valueCount = getValueCount(scale);
 
 			if (valueCount === 0) {
@@ -18087,7 +18087,7 @@ module.exports = function(Chart) {
 					if (index > 0 || tickOpts.reverse) {
 						var yCenterOffset = me.getDistanceFromCenterForValue(me.ticksAsNumbers[index]);
 
-						// Draw circular lines around the scale
+						// Draw circular ProductOrder around the scale
 						if (gridLineOpts.display && index !== 0) {
 							drawRadiusLine(me, gridLineOpts, yCenterOffset, index);
 						}

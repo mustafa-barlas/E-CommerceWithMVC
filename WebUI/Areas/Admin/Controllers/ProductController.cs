@@ -1,28 +1,31 @@
 ﻿using Business.Abstract;
-using Entities.Concrete;
 using Entities.Dtos.ProductDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,User")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-        private readonly IProductColorService _productColorService;
         private readonly IColorService _colorService;
 
-        public ProductController(IProductService productService, ICategoryService categoryService, IColorService colorService, IProductColorService productColorService)
+        public ProductController(IProductService productService, ICategoryService categoryService, IColorService colorService)
         {
             _productService = productService;
             _categoryService = categoryService;
             _colorService = colorService;
-            _productColorService = productColorService;
         }
 
-        [HttpGet]
+
         public IActionResult Index()
         {
             var result = _productService.GetProducts();
@@ -33,18 +36,16 @@ namespace WebUI.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            TempData["info"] = "Please fill the form.";
             ViewBag.Categories = GetCategoriesSelectList();
-
-            ViewBag.Colors = _colorService.FindAllWithAsNoTracking(false);
+            ViewBag.Colors = GetColorList();
 
             return View();
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto, IFormFile file, List<int> selectedColors)
+        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDtoForInsertion, IFormFile file)
         {
 
             // file operation
@@ -56,17 +57,14 @@ namespace WebUI.Areas.Admin.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            productDto.ImageUrl = String.Concat("/img/", file.FileName);
+            productDtoForInsertion.ImageUrl = String.Concat("/img/", file.FileName);
 
-            
 
-            _productService.CreateProduct(productDto,selectedColors);
-            Product? product = _productService.GetAll().Data.Last();
-            _productColorService.CreateProductColor(product.ProductId,selectedColors);
 
-            ViewBag.Colors = _colorService.GetAll().ToList();
+            _productService.CreateProduct(productDtoForInsertion);
+
             return RedirectToAction("Index");
-           
+
         }
 
 
@@ -74,40 +72,103 @@ namespace WebUI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update([FromRoute(Name = "id")] int id)
         {
-            ViewBag.categories = GetCategoriesSelectList();
+
             var result = _productService.GetOneProductForUpdate(id, true);
-            //var result = _productService.FindByConditionWithAsNoTracking(id, true);
+            ViewBag.Colors = GetColorList();
+            ViewBag.Categories = GetCategoriesSelectList();
+
+
             return View(result);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update([FromForm] ProductDtoForUpdate productDto, IFormFile file)
+        public async Task<IActionResult> Update(int id, [FromForm] ProductDtoForUpdate productDtoForUpdate, IFormFile file)
         {
-            // file operation
-            string path = Path.Combine(Directory.GetCurrentDirectory(),
-                "wwwroot", "img", file.FileName);
-
-            using (var stream = new FileStream(path, FileMode.Create))
+            if (id != productDtoForUpdate.ProductId)
             {
-                await file.CopyToAsync(stream);
+                return BadRequest();
             }
-            productDto.ImageUrl = String.Concat("/img/", file.FileName);
 
-            _productService.UpdateProduct(productDto);
+
+            if (file != null)
+            {
+                // Dosya işlemi
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", file.FileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                productDtoForUpdate.ImageUrl = String.Concat("/img/", file.FileName);
+            }
+
+
+            _productService.UpdateProduct(productDtoForUpdate);
+
+
             return RedirectToAction("Index");
+
+
         }
 
         public IActionResult Delete([FromRoute(Name = "id")] int id)
         {
-            var result = _productService.FindByConditionWithAsNoTracking(id, true);
+            var result = _productService.GetProducts().SingleOrDefault(x => x.ProductId.Equals(id));
+
             _productService.DeleteProduct(result);
             return RedirectToAction("Index");
         }
 
         private SelectList GetCategoriesSelectList()
         {
-            return new SelectList(_categoryService.GetAll().Data, "Id", "Name", "1");
+            return new SelectList(_categoryService.GetActiveCategories().Data, "Id", "Name", "1");
+        }
+
+        private SelectList GetColorList()
+        {
+            return new SelectList(_colorService.GetActiveColors(), "Id", "Name", "1");
+        }
+
+        public JsonResult IndexJson()
+        {
+            var result = _productService.GetProducts().ToList();
+
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                MaxDepth = 64 // Döngü derinliğini artırma iç içe geçmiş veriler için normali 32 dir
+            };
+            return Json(result, options);
+        }
+
+        public IActionResult IndexXml()
+        {
+            var result = _productService.GetProducts().ToList();
+
+            if (result.IsNullOrEmpty())
+                return new EmptyResult();
+
+            var xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+            xml += "<Products>";
+            foreach (var product in result)
+            {
+                xml += "<Product>";
+                xml += "<Name>" + product.ProductName + "</Name>";
+                xml += "<Name>" + product.Color.Name + "</Name>";
+                xml += "<Description>" + product.Description + "</Description>";
+                xml += "<Status>" + product.Status + "</Status>";
+                xml += "<Price>" + product.Price + "</Price>";
+                xml += "<Category>" + product?.Category?.Name + "</Category>";
+                xml += "<ImageUrl>" + product?.ImageUrl + "</ImageUrl>";
+                xml += "</Product>";
+            }
+            xml += "</Products>";
+
+
+            return Content(xml, "application/xml", Encoding.UTF8);
         }
     }
 }

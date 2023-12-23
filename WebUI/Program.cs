@@ -1,6 +1,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using WebUI.Infrastructure.Extensions;
 
 namespace WebUI
@@ -12,6 +15,8 @@ namespace WebUI
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+            builder.Services.AddMvc().AddFluentValidation();
 
             //var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
@@ -32,9 +37,10 @@ namespace WebUI
             //        };
             //    });
 
-            builder.Services.ConfigureIdentity();
 
-            
+
+
+
             var mvcBuilder = builder.Services.AddRazorPages();
             if (builder.Environment.IsDevelopment())
             {
@@ -42,15 +48,27 @@ namespace WebUI
             }
 
 
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(config =>
+            {
+                config.LoginPath = "/Admin/User/Login";
+
+                config.AccessDeniedPath = "/Admin/User/AccessDenied";
+
+                config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+
+                config.SlidingExpiration = true;
+            });
+
+
             builder.Services.ConfigureSession();
             builder.Services.ConfigureRouting();
-
             builder.Services.AddAutoMapper(typeof(Program)); // ben
-
             builder.Host.                                                        // IOC Container  // Autofac
                 UseServiceProviderFactory(new AutofacServiceProviderFactory
                     (options =>
                         options.RegisterModule(new AutofacBusinessModule())));
+
 
             var app = builder.Build();
 
@@ -63,6 +81,7 @@ namespace WebUI
             app.UseAuthentication();
             app.UseAuthorization();
 
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
@@ -71,12 +90,17 @@ namespace WebUI
                     pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}"
                 );
 
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    "default", 
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapRazorPages();
 
                 endpoints.MapControllers();
             });
+
+
+
 
             app.ConfigureLocalization();
             app.Run();

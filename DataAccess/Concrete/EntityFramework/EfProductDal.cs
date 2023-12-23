@@ -10,20 +10,23 @@ namespace DataAccess.Concrete.EntityFramework;
 
 public sealed class EfProductDal : EfEntityRepositoryBase<Product, AlalimContext>, IProductDal
 {
+
+
     public IQueryable<Product> GetProducts()
     {
-        IList<Product> products;
+        List<Product> products;
 
         using (var context = new AlalimContext())
         {
             products = context.Products
-                .Include(x => x.ProductColors)
-                .ThenInclude(x => x.Color)
-                .ToList();
+                .Include(x => x.Category)
+                .Include(x => x.Color).ToList();
         }
 
-        return products.AsQueryable();
+        return products?.AsQueryable() ?? Enumerable.Empty<Product>().AsQueryable();
     }
+
+
 
     public IQueryable<Product> GetProductsWithDetails(ProductRequestParameters requestParameters)
     {
@@ -36,11 +39,25 @@ public sealed class EfProductDal : EfEntityRepositoryBase<Product, AlalimContext
                 .FilteredByCategoryId(requestParameters.CategoryId)
                 .FilteredBySearchTerm(requestParameters.SearchTerm)
                 .FilteredByPrice(requestParameters.MinPrice, requestParameters.MaxPrice, requestParameters.IsValidPrice)
-                .ToPaginate(requestParameters.PageNumber, requestParameters.PageSize).ToList();
+                .ToPaginate(requestParameters.PageNumber, requestParameters.PageSize).Where(x => x.Status == true).ToList();
 
         }
 
-        return products.AsQueryable();
+        return products.Where(x => x.Status == true).AsQueryable();
     }
 
+    
+    public void ChangeStatus(int id)
+    {
+        using (var context = new AlalimContext())
+        {
+            var entity = GetProducts().SingleOrDefault(x => x.ProductId.Equals(id));
+            if (entity.Status == true)
+            {
+                entity.Status = false;
+            }
+
+            context.SaveChanges();
+        }
+    }
 }

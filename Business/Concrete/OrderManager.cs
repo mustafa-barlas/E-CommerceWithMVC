@@ -20,6 +20,11 @@ public class OrderManager : IOrderService
         return new SuccessDataResult<List<Order>>(_orderDal.GetAll());
     }
 
+    public IQueryable<Order> GetOrdersWithDetail(int? userId = null)
+    {
+        return _orderDal.GetOrders(userId);
+    }
+
     public IQueryable<Order> GetOrdersWithDetail()
     {
         return _orderDal.GetOrders();
@@ -31,11 +36,17 @@ public class OrderManager : IOrderService
     }
 
 
+
     public void Complete(int orderId)
     {
-       _orderDal.Complete(orderId);
+        _orderDal.Complete(orderId);
 
-        
+
+    }
+
+    public void Cancel(int orderId)
+    {
+        _orderDal.Cancel(orderId);
     }
 
     public void SaveOrder(Order order)
@@ -47,27 +58,7 @@ public class OrderManager : IOrderService
     {
         return _orderDal.NumberOfInProcess;
     }
+
+
 }
 
-/*
- [HttpPost]
-   public IActionResult AddExperience(Experience experience)
-   {
-   
-   ExperienceValidator validations = new ExperienceValidator();    
-   ValidationResult results = validations.Validate(experience);
-   if (results.IsValid)
-   {
-   experienceManager.Tadd(experience);
-   return RedirectToAction("Index");
-   }
-   else
-   {
-   foreach (var item in results.Errors)
-   {
-   ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-   }
-   }
-   return View();
-   }
- */ 

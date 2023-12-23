@@ -575,7 +575,7 @@ readers do not read off random characters that represent icons */
 .fa-explosion::before {
   content: "\e4e9"; }
 
-.fa-file-lines::before {
+.fa-file-ProductOrder::before {
   content: "\f15c"; }
 
 .fa-file-alt::before {
@@ -650,7 +650,7 @@ readers do not read off random characters that represent icons */
 .fa-heart-music-camera-bolt::before {
   content: "\f86d"; }
 
-.fa-microphone-lines-slash::before {
+.fa-microphone-ProductOrder-slash::before {
   content: "\f539"; }
 
 .fa-microphone-alt-slash::before {
@@ -1793,7 +1793,7 @@ readers do not read off random characters that represent icons */
 .fa-charging-station::before {
   content: "\f5e7"; }
 
-.fa-shapes::before {
+.fa-ItemSizes::before {
   content: "\f61f"; }
 
 .fa-triangle-circle-square::before {
@@ -1814,7 +1814,7 @@ readers do not read off random characters that represent icons */
 .fa-mobile-retro::before {
   content: "\e527"; }
 
-.fa-grip-lines-vertical::before {
+.fa-grip-ProductOrder-vertical::before {
   content: "\f7a5"; }
 
 .fa-spider::before {
@@ -1916,7 +1916,7 @@ readers do not read off random characters that represent icons */
 .fa-weight-hanging::before {
   content: "\f5cd"; }
 
-.fa-xmarks-lines::before {
+.fa-xmarks-ProductOrder::before {
   content: "\e59a"; }
 
 .fa-file-prescription::before {
@@ -2003,7 +2003,7 @@ readers do not read off random characters that represent icons */
 .fa-city::before {
   content: "\f64f"; }
 
-.fa-microphone-lines::before {
+.fa-microphone-ProductOrder::before {
   content: "\f3c9"; }
 
 .fa-microphone-alt::before {
@@ -3551,7 +3551,7 @@ readers do not read off random characters that represent icons */
 .fa-child-dress::before {
   content: "\e59c"; }
 
-.fa-users-between-lines::before {
+.fa-users-between-ProductOrder::before {
   content: "\e591"; }
 
 .fa-lungs-virus::before {
@@ -4637,7 +4637,7 @@ readers do not read off random characters that represent icons */
 .fa-head-side-cough::before {
   content: "\e061"; }
 
-.fa-grip-lines::before {
+.fa-grip-ProductOrder::before {
   content: "\f7a4"; }
 
 .fa-thumbs-down::before {
@@ -5261,7 +5261,7 @@ readers do not read off random characters that represent icons */
 .fa-arrow-down-up-lock::before {
   content: "\e4b0"; }
 
-.fa-lines-leaning::before {
+.fa-ProductOrder-leaning::before {
   content: "\e51e"; }
 
 .fa-ruler-combined::before {

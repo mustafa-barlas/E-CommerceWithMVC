@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model IQueryable<Product>
 
 
 
@@ -12,7 +12,7 @@
                         <div class="col heading1 margin_0">
                             Products
                         </div>
-                        <div class="col d-flex justify-content-end">
+                        <div class="col d-flex justify-content-center">
                             <a class="btn btn-success" type="button" asp-controller="Product" asp-action="Create">Create</a>
                         </div>
                     </div>
@@ -28,39 +28,37 @@
                             <th>#</th>
                             <th>Image</th>
                             <th>Product Name</th>
+                            <th>Status</th>
                             <th>Description</th>
                             <th>Showcase</th>
                             <th>Price</th>
-                            <th>Colors</th>
+                            <th>Color</th>
                             <th>Operations</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Product item in Model)
+                        @foreach (var item in Model)
                         {
 
 
                             <tr>
                                 <td>@item.ProductId</td>
-                                
+
                                 <td>
                                     <img class="border border-light rounded" src="@item?.ImageUrl" alt="@item?.ProductName"
                                          width="150" />
                                 </td>
                                 <td>@item.ProductName</td>
+                                <td>@item.Status</td>
                                 <td>@item.Description</td>
                                 <td>
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" checked="@item.ShowCase" disabled />
+                                        <input type="checkbox" class="form-check-input" checked="@item.ShowCase" disabled="disabled" />
                                     </div>
                                 </td>
                                 <td>@item.Price.Value.ToString("C0")</td>
 
-                                <td>@foreach (var item2 in item.ProductColors)
-                                    {
-                                        <li>@item2.Color.Name</li>
-                                    }
-                                </td>
+                                <td>@item.Color.Name</td>
                                 <td>
 
                                     <div class="btn-group">
@@ -68,10 +66,14 @@
                                            asp-action="Update" asp-route-id="@item.ProductId">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger"
-                                           asp-action="Delete" asp-route-id="@item.ProductId">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+
+                                        @* <a data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger"
+                                    asp-action="Delete" asp-route-id="@item.ProductId">
+                                    <i class="fa fa-trash"></i>
+                                    </a> *@
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId"
+                                           class="btn btn-dark">Delete</a>
+
                                         <a data-toggle="tooltip" data-placement="top" title="Web" class="btn btn-info"
                                            target="_blank" asp-area="" asp-controller="Product" asp-action="Get"
                                            asp-route-id="@item.ProductId">
@@ -115,101 +117,28 @@
 <script src="/pluto-1.0.0/js/custom.js"></script>
 <!-- calendar file css -->
 <script src="/pluto-1.0.0/js/semantic.min.js"></script>
-
-
-@* <div class="col-md-9">
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Image Url</th>
-                <th>Product Name</th>
-                <th>Showcase</th>
-                <th>Price</th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (Product prd in Model)
-            {
-                <tr>
-                    <td>@prd.ProductId</td>
-                    <td>
-                        <img class="border border-light rounded" src="@prd?.ImageUrl" alt="@prd?.ProductName"
-                             width="50" />
-                    </td>
-                    <td>@prd.ProductName</td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input" checked="@prd.ShowCase" disabled />
-                        </div>
-                    </td>
-                    <td>@prd.Price.Value.ToString("C")</td>
-                    <td>
-                        <div class="btn-group">
-                            <a data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-warning"
-                               asp-action="Update" asp-route-id="@prd.ProductId">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger"
-                               asp-action="Delete" asp-route-id="@prd.ProductId">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Web" class="btn btn-info"
-                               target="_blank" asp-area="" asp-controller="Product" asp-action="Get"
-                               asp-route-id="@prd.ProductId">
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-</div>
-
-<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-    <!-- Block2 -->
-    <div class="block2">
-        <div class="block2-pic hov-img0">
-            <img src="/cozastore-master/images/product-08.jpg" alt="IMG-PRODUCT">
-
-            <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                Quick View
-            </a>
-        </div>
-
-        <div class="block2-txt flex-w flex-t p-t-14">
-            <div class="block2-txt-child1 flex-col-l ">
-                <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                    Pieces Metallic Printed
-                </a>
-
-                <span class="stext-105 cl3">
-                    $18.96
-                </span>
-            </div>
-
-            <div class="block2-txt-child2 flex-r p-t-3">
-                <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                    <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
- *@
+<link href="~/lib/Alertifyjs/css/alertify.min.css" rel="stylesheet" />
+<script src="~/lib/Alertifyjs/alertify.min.js"></script>
 
 
 
+@* @section Scripts {
 
-@* @section Scripts
-    {
-    <script type="text/javascript">
-        $(document).ready(() => {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
+    <link href="~/lib/Alertifyjs/css/alertify.min.css" rel="stylesheet" />
+    <script src="~/lib/Alertifyjs/alertify.min.js"></script>
+
+    <script>
+        function deleteProduct(id) {
+            alertify.confirm(
+                "Warning",
+                "Are you sure you want to delete this product ?",
+                function () {
+                    window.location.href = "/Admin/Product/Delete/" + id
+                },
+                function () {
+
+                }
+            ).set('labels', { ok: "Yes", cancel: 'No' });
+        }
     </script>
 } *@

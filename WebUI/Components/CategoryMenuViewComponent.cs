@@ -14,7 +14,7 @@ public class CategoryMenuViewComponent : ViewComponent
 
 	public IViewComponentResult Invoke()
 	{
-		var result = _categoryService.GetAll().Data;
+		var result = _categoryService.GetActiveCategories().Data;
 		return View(result);
 	}
 }

@@ -1,20 +1,20 @@
 ﻿using Business.Abstract;
 using Entities.RequestParameters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
 namespace WebUI.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IProductService _productService;
-        private readonly ICategoryService _categoryService;
         
 
-        public HomeController(IProductService productService, ICategoryService categoryService)
+        public HomeController(IProductService productService)
         {
 	        _productService = productService;
-	        _categoryService = categoryService;
           
         }
 
@@ -27,7 +27,7 @@ namespace WebUI.Controllers
             {
                 CurrentPage = parameters.PageNumber,
                 ItemsPerPage = parameters.PageSize,
-                TotalItems = _productService.GetAll().Data.Count()
+                TotalItems = _productService.GetActiveProducts().Count()
             };
 
 
@@ -38,17 +38,6 @@ namespace WebUI.Controllers
 
             });
         }
-
-
-        //[HttpGet]
-        //public IActionResult _Cart()
-        //{
-        //    CartModel _cartModel = null;
-
-        //    ViewBag.v3 = _cartModel;
-
-        //    return PartialView();
-        //}
 
     }
 }

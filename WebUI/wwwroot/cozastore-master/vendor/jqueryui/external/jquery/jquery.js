@@ -547,7 +547,7 @@ jQuery.extend( {
 // JSHint would error on this code due to the Symbol not being defined in ES5.
 // Defining this global in .jshintrc would create a danger of using the global
 // unguarded in another place, it seems safer to just disable JSHint for these
-// three lines.
+// three ProductOrder.
 /* jshint ignore: start */
 if ( typeof Symbol === "function" ) {
 	jQuery.fn[ Symbol.iterator ] = deletedIds[ Symbol.iterator ];
@@ -1553,7 +1553,7 @@ getText = Sizzle.getText = function( elem ) {
 		}
 	} else if ( nodeType === 1 || nodeType === 9 || nodeType === 11 ) {
 		// Use textContent for elements
-		// innerText usage removed for consistency of new lines (jQuery #11153)
+		// innerText usage removed for consistency of new ProductOrder (jQuery #11153)
 		if ( typeof elem.textContent === "string" ) {
 			return elem.textContent;
 		} else {
@@ -5089,7 +5089,7 @@ jQuery.event = {
 			[ event ] :
 			jQuery.makeArray( data, [ event ] );
 
-		// Allow special events to draw outside the lines
+		// Allow special events to draw outside the ProductOrder
 		special = jQuery.event.special[ type ] || {};
 		if ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === false ) {
 			return;

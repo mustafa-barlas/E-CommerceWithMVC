@@ -28,6 +28,7 @@
                             <th>Image</th>
                             <th>Category Name</th>
                             <th>Description</th>
+                            <th>Status</th>
                             <th>Operations</th>
                         </tr>
                     </thead>
@@ -44,6 +45,7 @@
                                 </td>
                                 <td>@item.Name</td>
                                 <td>@item.Description</td>
+                                <td>@item.Status</td>
 
 
                                 <td>
@@ -53,7 +55,7 @@
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger"
-                                           asp-action="Delete" asp-route-id="@item.Id">
+                                           asp-action="Delete" asp-controller="Category" asp-route-id="@item.Id">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                         @*  <a data-toggle="tooltip" data-placement="top" title="Web" class="btn btn-info"

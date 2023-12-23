@@ -1,4 +1,9 @@
-﻿<header>
+﻿@using System.Security.Claims
+
+
+
+
+<header>
     <!-- Header desktop -->
     <div class="container-menu-desktop">
 
@@ -19,34 +24,85 @@
                         </li>
 
                         <li>
-                            <a asp-action="Index" asp-controller="Product">Products</a>
+                            <a asp-area="" asp-action="Index" asp-controller="Product">Products</a>
                         </li>
 
                         <li class="label1" data-label1="hot">
-                            <a asp-controller="Category" asp-action="Index">Categories</a>
+                            <a asp-controller="Category" asp-action="Index" asp-area="">Categories</a>
                         </li>
 
                         <li>
-                            <a aria-current="page" asp-page="/Contact">Contact</a>
+                            <a asp-area="" aria-current="page" asp-page="/Contact">Contact</a>
+                        </li>
+
+
+                    </ul>
+                    <ul class="user_profile_dd ">
+                        <li>
+                            @{
+                                if (User.Identity.IsAuthenticated && User.Identity is ClaimsIdentity claimsIdentity)
+                                {
+                                    <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="/pluto-1.0.0/images/layout_img/user_img.jpg" width="150" height="150" alt="#" /></a>
+
+
+                                    string? name = null;
+                                    string? surname = null;
+                                    if (claimsIdentity != null)
+                                    {
+                                        var nameClaim = claimsIdentity.FindFirst(ClaimTypes.Name);
+
+                                        var surnameClaim = claimsIdentity.FindFirst(ClaimTypes.Surname);
+
+                                        if (nameClaim != null && surnameClaim != null)
+                                        {
+                                            name = nameClaim.Value;
+                                            surname = surnameClaim.Value;
+                                            
+                                        }
+                                    }
+
+
+
+                                    <div class="dropdown-menu container" style="width:min-content; background-color:ButtonFace;">
+                                        <a class="dropdown-item" href="#">@name  @surname</a>
+                                        @{
+                                            if (User.IsInRole("Admin"))
+                                            {
+                                                <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin Panel</a>
+                                            }
+                                        }
+
+                                        <a class="dropdown-item" asp-controller="Address" asp-action="Index">My Addresses</a>
+                                        <a class="dropdown-item" asp-controller="Order" asp-action="Index">My Orders</a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Logout"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Login"><span>Log In</span> <i class="fa fa-sign-in"></i></a>
+                                }
+                            }
+
                         </li>
                     </ul>
+
                 </div>
+
 
                 <!-- Icon header -->
                 <div class="wrap-icon-header flex-w flex-r-m">
-                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-                        <i class="zmdi zmdi-search"></i>
-                    </div>
+
 
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti "
-                    data-notify="@await Component.InvokeAsync("CartSummary")">
-                        <a style="text-decoration-color:revert" aria-current="page" asp-area="" asp-page="/Cart">  <i class="zmdi zmdi-shopping-cart"></i></a>
+                         data-notify="@await Component.InvokeAsync("CartSummary")">
+                        <a style="text-decoration-color:revert" asp-controller="MyCart" asp-action="Index"> <i class="zmdi zmdi-shopping-cart"></i></a>
 
                     </div>
 
-                    <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+                    <a asp-controller="Favorite" asp-action="GetFavorites" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" >
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
+
                 </div>
             </nav>
         </div>
@@ -56,21 +112,72 @@
     <div class="wrap-header-mobile">
         <!-- Logo moblie -->
         <div class="logo-mobile">
-            <a href="/"><img  src="/cozastore-master/images/alalım.com.png" alt="IMG-LOGO"></a>
+            <a href="/"><img src="/cozastore-master/images/alalım.com.png" alt="IMG-LOGO"></a>
         </div>
+        <div>
 
+
+            <ul class="user_profile_dd ">
+                <li>
+                    @{
+                        if (User.Identity.IsAuthenticated && User.Identity is ClaimsIdentity claimsIdentity2)
+                        {
+                            <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="/pluto-1.0.0/images/layout_img/user_img.jpg" width="75" height="75" alt="#" /></a>
+
+
+                            string? name = null;
+                            string? surname = null;
+                            if (claimsIdentity2 != null)
+                            {
+                                var nameClaim = claimsIdentity2.FindFirst(ClaimTypes.Name);
+
+                                var surnameClaim = claimsIdentity2.FindFirst(ClaimTypes.Surname);
+
+                                if (nameClaim != null && surnameClaim != null)
+                                {
+                                    name = nameClaim.Value;
+                                    surname = surnameClaim.Value;
+
+                                }
+                            }
+
+
+
+                            <div class="dropdown-menu container" style="width:min-content; background-color:ButtonFace;">
+                                <a class="dropdown-item" href="#">@name  @surname</a>
+                                @{
+                                    if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin Panel</a>
+                                    }
+                                }
+
+                                <a class="dropdown-item" asp-controller="Address" asp-action="Index">My Addresses</a>
+                                <a class="dropdown-item" asp-controller="Order" asp-action="Index">My Orders</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Logout"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Login"><span>Log In</span> <i class="fa fa-sign-in"></i></a>
+                        }
+                    }
+
+                </li>
+            </ul>
+        </div>
         <!-- Icon header -->
         <div class="wrap-icon-header flex-w flex-r-m m-r-15">
-            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-                <i class="zmdi zmdi-search"></i>
+
+           
+
+            <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti "
+                 data-notify="@await Component.InvokeAsync("CartSummary")">
+                <a style="text-decoration-color:revert" asp-controller="MyCart" asp-action="Index"> <i class="zmdi zmdi-shopping-cart"></i></a>
+
             </div>
 
-            <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti " data-notify="@await Component.InvokeAsync("CartSummary")">
-                <a style="text-decoration-color:revert" aria-current="page" asp-area="" asp-page="/Cart">  <i class="zmdi zmdi-shopping-cart"></i></a>
-
-            </div>
-
-            <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
+            <a asp-controller="Favorite" asp-action="GetFavorites" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" >
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
         </div>
@@ -111,17 +218,14 @@
     <!-- Modal Search -->
     <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
         <div class="container-search-header">
+
             <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
                 <a href="/"> <img src="/cozastore-master/images/alalım.com.png" alt="CLOSE"></a>
-               
+
             </button>
 
-            <form class="wrap-search-header flex-w p-l-15">
-                <button class="flex-c-m trans-04">
-                    <i class="zmdi zmdi-search"></i>
-                </button>
-                <input class="plh3" type="text" name="search" placeholder="Search...">
-            </form>
+           
+
         </div>
     </div>
 </header>

@@ -1,12 +1,9 @@
 ﻿using Autofac;
 using Business.Abstract;
 using Business.Concrete;
-using Core.Utilities.Security.Jwt;
-using Core.Utilities.Security.JWT;
+using Business.ValidationRules.FluentValidation;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
-using Entities.Concrete;
-using Microsoft.AspNetCore.Identity;
 
 namespace Business.DependencyResolvers.Autofac;
 
@@ -29,17 +26,31 @@ public class AutofacBusinessModule : Module
         builder.RegisterType<ColorManager>().As<IColorService>().InstancePerLifetimeScope();
         builder.RegisterType<EfColorDal>().As<IColorDal>().InstancePerLifetimeScope();
 
-        builder.RegisterType<ProductSizeManager>().As<IProductSizeService>().InstancePerLifetimeScope();
-        builder.RegisterType<EfProductSizeDal>().As<IProductSizeDal>().InstancePerLifetimeScope();
-
         builder.RegisterType<OrderManager>().As<IOrderService>();
         builder.RegisterType<EfOrderDal>().As<IOrderDal>();
 
 
-        builder.RegisterType<EfProductColorDal>().As<IProductColorDal>();
+        builder.RegisterType<UserManager>().As<IUserService>();
+        builder.RegisterType<EfUserDal>().As<IUserDal>();
+
+        builder.RegisterType<RoleManager>().As<IRoleService>();
+        builder.RegisterType<EfRoleDal>().As<IRoleDal>();
+
+        builder.RegisterType<AccountManager>().As<IAccountService>();
+        builder.RegisterType<AccountManager>().AsSelf();
+
+        builder.RegisterType<CityManager>().As<ICityService>();
+        builder.RegisterType<EfCityDal>().As<ICityDal>();
+
+        builder.RegisterType<AddressManager>().As<IAddressService>();
+        builder.RegisterType<EfAddressDal>().As<IAddressDal>();
+
+        builder.RegisterType<UserForRegisterValidator>().AsSelf().SingleInstance();
+
+        builder.RegisterType<ReportManager>().As<IReportService>();
+        builder.RegisterType<EfProductOrderDal>().As<IProductOrderDal>();
 
 
-    
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
         builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().SingleInstance();

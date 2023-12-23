@@ -1,6 +1,6 @@
 ﻿namespace Entities.Dtos.CategoryDto;
 
-public record class CategoryDtoForUpdate : CategoryDto
+public record  CategoryDtoForUpdate : CategoryDto
 {
     
 }

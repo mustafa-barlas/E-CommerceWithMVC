@@ -2,18 +2,15 @@
 
 namespace DataAccess.Extensions;
 
-public static class ProductExtension
+public static class ProductExtension 
 {
     public static IQueryable<Product> FilteredByCategoryId(this IQueryable<Product> products, int? categoryId)
     {
-        if (categoryId is null)
-        {
-            return products;
-        }
-        else
+        if (categoryId != null)
         {
             return products.Where(x => x.CategoryId.Equals(categoryId));
         }
+        return products;
     }
 
     public static IQueryable<Product> FilteredBySearchTerm(this IQueryable<Product> products, string? searchTerm)

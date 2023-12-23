@@ -2495,7 +2495,7 @@ function applyStyle(data) {
   // any property present in `data.styles` will be applied to the popper,
   // in this way we can make the 3rd party modifiers add custom styles to it
   // Be aware, modifiers could override the properties defined in the previous
-  // lines of this modifier!
+  // ProductOrder of this modifier!
   setStyles(data.instance.popper, data.styles);
 
   // any property present in `data.attributes` will be applied to the popper,

@@ -1,17 +1,20 @@
 ﻿using Entities.Concrete;
+using Entities.Dtos.ColorDto;
 
 namespace Business.Abstract;
 
 public interface IColorService
 {
-	void Add(Color color);
-	void Update(Color color);
-	void Delete(Color color);
+    void Add(ColorDto color);
+    void Update(ColorDto color);
+    void Delete(Color color);
 
-	List<Color> FindAllWithAsNoTracking(bool trackChanges);
+    List<Color> FindAllWithAsNoTracking(bool trackChanges);
 
-	Color? FindByConditionWithAsNoTracking(int colorId, bool trackChanges);
+    List<Color> GetActiveColors();
 
-	//ColorDtoForUpdate GetOneColorForUpdate(int id, bool trackChanges);
-    IList<Color> GetAll();
+    Color? FindByConditionWithAsNoTracking(int colorId, bool trackChanges);
+
+    ColorDto GetOneColorForUpdate(int id, bool trackChanges);
+
 }

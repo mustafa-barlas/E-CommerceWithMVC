@@ -5,6 +5,10 @@ namespace DataAccess.Abstract;
 
 public interface IOrderDal : IEntityRepository<Order>
 {
+
+
+    IQueryable<Order> GetOrders(int? userId = null);
+
     IQueryable<Order> GetOrders();
 
     void SaveOrder(Order order);
@@ -12,4 +16,6 @@ public interface IOrderDal : IEntityRepository<Order>
     int NumberOfInProcess { get; }
 
     public void Complete(int orderId);
+
+    public void Cancel(int orderId);
 }

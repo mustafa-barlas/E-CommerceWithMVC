@@ -6,8 +6,8 @@
 
 <form method="post" asp-action="Update" asp-controller="Product" enctype="multipart/form-data">
 
-    @*     <div class="text-danger" asp-validation-summary="All"></div>
-    *@
+    
+
     <input type="hidden" asp-for="ProductId" />
 
     <div class="form-group my-3">
@@ -17,10 +17,18 @@
     </div>
 
     <div class="form-group my-3">
+        <label asp-for="ColorId"></label>
+        <select class="form-control" asp-items="@ViewBag.Colors" asp-for="ColorId">
+        </select>
+    </div>
+    <div class="form-group my-3">
         <label asp-for="ProductName"></label>
         <input asp-for="ProductName" class="form-control" />
     </div>
-
+    <div class="form-group my-3">
+        <label asp-for="Status"></label>
+        <input asp-for="Status" class="form-control" />
+    </div>
     <div class="form-group my-3">
         <label asp-for="Summary"></label>
         <input asp-for="Summary" class="form-control" />
@@ -35,10 +43,7 @@
         <input asp-for="Description" class="form-control" />
     </div>
 
-    @*  <div class="form-check form-switch">
-    <input asp-for="Showcase" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-    <label class="form-check-label" for="flexSwitchCheckDefault">Showcase</label>
-    </div> *@
+   
 
     <div class="from-group my-3">
         <img class="rounded shadow" width="150" src="@Model?.ImageUrl" />

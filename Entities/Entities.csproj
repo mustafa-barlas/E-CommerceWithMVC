@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
+    <Folder Include="Dtos\RoleDto\" />
+    <Folder Include="RequestParameters\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RequestParameters\" />
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>

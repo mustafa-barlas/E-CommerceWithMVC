@@ -1,10 +1,12 @@
 ﻿using Business.Abstract;
 using Entities.Dtos.CategoryDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,User")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -33,14 +35,14 @@ namespace WebUI.Areas.Admin.Controllers
         {
             // File Operations
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","img",file.FileName);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", file.FileName);
 
-            using (var stream = new FileStream(path,FileMode.Create))
+            using (var stream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
-            dtoForInsertion.ImageUrl = String.Concat("/img/",file.FileName);
+            dtoForInsertion.ImageUrl = String.Concat("/img/", file.FileName);
             _categoryService.CreateCategory(dtoForInsertion);
             return RedirectToAction("Index");
         }
@@ -48,23 +50,23 @@ namespace WebUI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update([FromRoute(Name = "id")] int id)
         {
-            var result = _categoryService.GetOneCategoryForUpdate(id,true);
+            var result = _categoryService.GetOneCategoryForUpdate(id, true);
             return View(result);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update([FromForm]CategoryDtoForUpdate dtoForUpdate, IFormFile file)
+        public async Task<IActionResult> Update([FromForm] CategoryDtoForUpdate dtoForUpdate, IFormFile file)
         {
             //File Operations 
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", file.FileName);
 
-            using (var stream = new FileStream(path,FileMode.Create))
+            using (var stream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            dtoForUpdate.ImageUrl = string.Concat("/img/",file.FileName);
+            dtoForUpdate.ImageUrl = string.Concat("/img/", file.FileName);
             _categoryService.UpdateCategory(dtoForUpdate);
             return RedirectToAction("Index");
         }

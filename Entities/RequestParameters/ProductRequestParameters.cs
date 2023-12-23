@@ -2,6 +2,7 @@
 
 public class ProductRequestParameters : RequestParameters
 {
+
     public int? CategoryId { get; set; }
 
     public int MinPrice { get; set; } = 0;

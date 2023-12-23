@@ -10,11 +10,13 @@ public interface ICategoryService
 
     IDataResult<List<Category>> GetAll();
 
-    Category? FindByConditionWithAsNoTracking(int  categoryId, bool trackChanges);
+    IDataResult<List<Category>> GetActiveCategories();
+
+    Category? FindByConditionWithAsNoTracking(int categoryId, bool trackChanges);
 
     CategoryDtoForUpdate GetOneCategoryForUpdate(int id, bool trackChanges);
 
-	void CreateCategory(CategoryDtoForInsertion dtoForInsertion);
-	void UpdateCategory(CategoryDtoForUpdate dtoForUpdate);
-	void DeleteCategory(Category category);
+    void CreateCategory(CategoryDtoForInsertion dtoForInsertion);
+    void UpdateCategory(CategoryDtoForUpdate dtoForUpdate);
+    void DeleteCategory(Category category);
 }

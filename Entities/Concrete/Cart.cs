@@ -2,38 +2,55 @@
 
 public class Cart
 {
-    public List<CartLine> Lines { get; set; }
+    public List<ProductOrder> ProductOrders { get; set; } = new List<ProductOrder>();
 
     public Cart()
     {
-        Lines = new List<CartLine>();
+        ProductOrders = new List<ProductOrder>();
     }
-
-    public virtual void AddItem(Product product, int quantity)
+    
+    
+    public void AddItem(Product product, int quantity)
     {
-        CartLine? line = Lines.Where(x => x.Product.ProductId.Equals(product.ProductId)).FirstOrDefault();
+        var existingItem = ProductOrders.FirstOrDefault(item => item.Product.ProductId == product.ProductId);
 
-        if (line is null)
+        if (existingItem != null)
         {
-            Lines.Add(new CartLine()
-            {
-                Product = product,
-                Quantity = quantity
-            });
+            existingItem.Quantity += quantity;
         }
         else
         {
-            line.Quantity += quantity;
+            ProductOrders.Add(new ProductOrder()
+            {
+                Product = product, 
+                Quantity = quantity,
+            });
         }
     }
 
-    public virtual void RemoveLine(Product product) =>
-        Lines.RemoveAll(x => x.Product.ProductId.Equals(product.ProductId));
+    public virtual void RemoveLine(Product product)
+    {
+        var existingItem = ProductOrders.FirstOrDefault(item => item.Product.ProductId == product.ProductId);
 
-    public decimal ComputeTotalValue() => Lines.Sum(x => x.Product.Price.Value * x.Quantity);
+        if (existingItem != null)
+        {
+            if (existingItem.Quantity > 1)
+            {
+                // Eğer miktar 1'den büyükse, miktarı azalt
+                existingItem.Quantity--;
+            }
+            else
+            {
+                // Eğer miktar 1 ise, ürünü tamamen sepetten kaldır
+                ProductOrders.Remove(existingItem);
+            }
+        }
+    }
 
-    public virtual  void Clear () => Lines.Clear();
 
-    
 
+    public decimal ComputeTotalValue() => ProductOrders.Sum(x => x.Product.Price.Value * x.Quantity);
+
+    public virtual  void Clear () => ProductOrders.Clear();
 }
+

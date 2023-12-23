@@ -319,7 +319,7 @@ body.compensate-for-scrollbar {
   display: block;
   overflow: visible;
   position: relative;
-  shape-rendering: geometricPrecision; }
+  ItemSize-rendering: geometricPrecision; }
 
 .fancybox-button svg path {
   fill: transparent;

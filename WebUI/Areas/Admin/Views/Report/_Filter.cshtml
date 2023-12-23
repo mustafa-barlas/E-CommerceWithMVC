@@ -1,0 +1,68 @@
+﻿@model FilterDto
+
+
+
+<form asp-action="Index" asp-controller="Report" method="post" data-ajax="true" data-ajax-update="#report" data-ajax-mode="replace" class="form-control form">
+
+    <div class="row container">
+        <div>
+            <label>search</label>
+        </div>
+        <div class="col-md-3 mb-3">
+            <input type="text" asp-for="SearchItem" class="form-control  input" />
+            <br />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div>
+                <label>date</label>
+            </div>
+            <div class="input-group">
+
+                <input type="date" asp-for="BeginDate" class="form-control input" />
+
+            </div>
+            <div>
+                <label>date</label>
+            </div>
+            <div class="input-group">
+
+                <input type="date" asp-for="EndDate" class="form-control input" />
+
+            </div>
+        </div>
+       
+        <div class="col-md-3 mb-3">
+            <span> Role</span>
+            <div class="input-group">
+               
+                <div class="input-group">
+
+                    @Html.DropDownListFor(x => x.RoleId, ViewBag.RoleSelectList as SelectList, "Select a role", new { @class = "form-select select2", id = "roles" })
+
+                </div>
+
+            </div>
+            <br/>
+            <span> User</span>
+            <div class="input-group">
+
+                <div>
+                    @Html.DropDownListFor(x => x.UserId, ViewBag.userSelectList as SelectList, "Select a user", new { @class = "form-select select2", id = "users" })
+                </div>
+
+            </div>
+
+
+        </div>  
+       
+        <div class="col-md-3 mb-3">
+        </div>
+        <div class="col-md-2 mb-3">
+            <button type="submit" class="btn btn-success btn-block">Search</button>
+            <a id="clear" class="btn btn-dark btn-block text-white">Clear</a>
+        </div>
+
+    </div>
+
+</form>

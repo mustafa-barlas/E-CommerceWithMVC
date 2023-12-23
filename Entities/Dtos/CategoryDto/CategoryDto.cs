@@ -2,7 +2,7 @@
 
 namespace Entities.Dtos.CategoryDto;
 
-public record class CategoryDto : IEntity
+public record  CategoryDto : IEntity
 {
     public int Id { get; init ; }
 
@@ -11,4 +11,7 @@ public record class CategoryDto : IEntity
     public string Description { get; init; }
 
     public string ImageUrl { get; set; }
+
+    public bool Status { get; set; }
+
 }

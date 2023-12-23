@@ -2,7 +2,6 @@
 using Business.Abstract;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework.Contexts;
 using Entities.Concrete;
 using Entities.Dtos.ProductDto;
 using Entities.RequestParameters;
@@ -13,44 +12,26 @@ public class ProductManager : IProductService
 {
 
     private readonly IProductDal _productDal;
-    private readonly IProductColorService _productColorService;
     private readonly IMapper _mapper;
 
-    public ProductManager(IProductDal productDal, IMapper mapper, IProductColorService productColorService)
+    public ProductManager(IProductDal productDal, IMapper mapper)
     {
         _productDal = productDal;
         _mapper = mapper;
-        _productColorService = productColorService;
     }
 
 
 
-    public void CreateProduct(ProductDtoForInsertion productDtoForInsertion, List<int> selectedColors)
+    public IDataResult<ProductDtoForInsertion> CreateProduct(ProductDtoForInsertion forInsertion)
     {
-        //Product product = new Product()
-        //{
-        //    ProductName = productDto.ProductName,
-        //    Price = productDto.Price,
-        //    CategoryId = productDto.CategoryId,
-        //    Description = productDto.Description,
-        //};
-
-        Product product = _mapper.Map<Product>(productDtoForInsertion);
-        _productDal.Add(product);
-         // var result = _productDal.GetAll().Last();
-        _productColorService.CreateProductColor(product.ProductId,selectedColors);
-
+        var newProduct = _mapper.Map<Product>(forInsertion);
+        _productDal.Add(newProduct);
+        return new SuccessDataResult<ProductDtoForInsertion>();
     }
 
 
     public void UpdateProduct(ProductDtoForUpdate forUpdate)
     {
-        //var entity = _manager.GetProductOneProduct(productDtoForUpdate.ProductId,true);
-
-        //result.ProductName = productDtoForUpdate.ProductName;
-        //result.Description = productDtoForUpdate.Description;
-        //result.Price = productDtoForUpdate.Price;
-        //result.CategoryId = productDtoForUpdate.CategoryId;
 
         var entity = _mapper.Map<Product>(forUpdate);
         _productDal.Update(entity);
@@ -66,13 +47,24 @@ public class ProductManager : IProductService
 
     public void DeleteProduct(Product product)
     {
-        var entity = _productDal.Get(x => x.ProductId == product.ProductId, true);
-        _productDal.Delete(entity);
+        _productDal.Delete(product);
     }
+
+    public void ChangeStatus(Product product)
+    {
+        var entity = _productDal.GetProducts().SingleOrDefault(x => x.ProductId.Equals(product.ProductId));
+        _productDal.ChangeStatus(entity.ProductId);
+    }
+
 
     public IQueryable<Product> GetProducts()
     {
         return _productDal.GetProducts();
+    }
+
+    public IQueryable<Product> GetActiveProducts()
+    {
+        return _productDal.GetProducts().Where(x => x.Status == true);
     }
 
     public IQueryable<Product> GetLatestProducts(int n)
@@ -87,10 +79,6 @@ public class ProductManager : IProductService
         return _productDal.GetProductsWithDetails(requestParameters);
     }
 
-    public IDataResult<List<Product>> GetAll()
-    {
-        return new SuccessDataResult<List<Product>>(_productDal.GetAll());
-    }
 
     public List<Product> FindAllWithAsNoTracking(bool trackChanges)
     {
@@ -102,9 +90,5 @@ public class ProductManager : IProductService
         return _productDal.FindByConditionAndAsNoTracking(x => x.ProductId == productId, trackChanges);
     }
 
-    //public Product? GetOneProduct(int productId, bool trackChanges)
-    //{
-    //    return _productDal.FindByConditionAndAsNoTracking(x => x.ProductId.Equals(productId), trackChanges);
-    //}
 
 }

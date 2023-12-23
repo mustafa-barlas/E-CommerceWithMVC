@@ -1,0 +1,32 @@
+﻿@model ColorDto
+
+
+
+<div class="text-center">
+    <div class="display-6">Update</div>
+</div>
+
+<form method="post" asp-area="Admin" asp-controller="Color" asp-action="Update">
+
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group my-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <label asp-for="Status"></label>
+        <input asp-for="Status" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <div class="btn-group">
+            <button class="btn btn-primary" type="submit">
+                <i class="fa fa-save"></i>
+                Save
+            </button>
+            <a asp-area="Admin" asp-action="Index" asp-controller="Color" class="btn btn-outline-primary">
+                <i class="fa fa-list"></i>
+                Color
+            </a>
+        </div>
+    </div>
+</form>

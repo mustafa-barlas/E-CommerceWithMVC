@@ -1,13 +1,14 @@
 ﻿using Core.Entities;
-using Entities.Concrete;
 
 namespace Entities.Dtos.ProductDto;
 
-public record class ProductDto : IEntity
+public record ProductDto : IDto
 {
     public int ProductId { get; init; }
 
     public string ProductName { get; init; }
+
+    public bool Status { get; init; }
 
     public string? Description { get; init; }
 
@@ -19,7 +20,6 @@ public record class ProductDto : IEntity
 
     public int? CategoryId { get; init; }
 
-    public List<int> SelectedColors { get; set; } = new List<int>();
+    public int? ColorId { get; init; }
 
-    public List<ProductColor> ProductColors { get; set; } = new List<ProductColor>();
 }

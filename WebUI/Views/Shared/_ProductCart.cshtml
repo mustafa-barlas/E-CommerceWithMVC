@@ -1,5 +1,4 @@
-﻿@using WebUI.Infrastructure.Extensions
-@model Product
+﻿@model Product
 
 
 
@@ -23,25 +22,74 @@
                 <span class="stext-105 cl3">
                     @Model.Price.Value.ToString("C0")
                 </span>
+                <span class="stext-105 cl3">
+                    @* @Model.Color.Name *@
+                </span>
             </div>
             <div class="btn btn-group">
-                <form id="@Model.ProductId" asp-page="/cart" method="post">
-                    <input type="hidden" asp-for="ProductId" />
-                    <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
-                    <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
-                        Add to cart
-                    </button>
-                </form>
+
+
+
+                <a href="#" data-product-id="@Model.ProductId" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" onclick="AddToCart(this)">
+                    Add to cart
+                </a>
+
 
             </div>
-
 
             <div class="block2-txt-child2 flex-r p-t-3">
-                <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+
+
+                <a href="#" data-product-id="@Model.ProductId" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
                     <img class="icon-heart1 dis-block trans-04" src="/cozastore-master/images/icons/icon-heart-01.png" alt="ICON">
-                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="/cozastore-master/images/icons/icon-heart-02.png" alt="ICON">
                 </a>
+
             </div>
+
+
+
+
         </div>
     </div>
 </div>
+
+
+<!-- Color Selection Modal -->
+
+
+ <script>
+    function AddToCart(button) {
+
+        var productId = $(button).data("product-id");
+
+        $.ajax({
+            type: "POST",
+            url: "/MyCart/AddToCart",
+            data: { ProductId: productId },
+            cache: false,
+            success: function (data) {
+
+                swal({
+                    title: "Success",
+                    text: "Product added to cart! ",
+                    icon: "success",
+                    button: "OK"
+                });
+            },
+            error: function (error) {
+
+                swal({
+                    title: "Error",
+                    text: "An error occurred while processing your request.",
+                    icon: "error",
+                    button: "OK"
+                });
+            }
+        });
+
+        return false; // Sayfanın yeniden yüklenmesini engelle
+    }
+</script> 
+
+
+

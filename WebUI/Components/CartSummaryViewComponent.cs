@@ -1,20 +1,37 @@
-﻿using Entities.Concrete;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Business.Abstract;
+using Entities.Concrete.Identity;
 
 namespace WebUI.Components;
 
 public class CartSummaryViewComponent : ViewComponent
 {
-    private readonly Cart _cart;
+    private readonly ICartService _cartService;
 
-    public CartSummaryViewComponent(Cart cart)
+    public CartSummaryViewComponent(ICartService cartService)
     {
-        _cart = cart;
+        _cartService = cartService;
     }
 
     public string Invoke()
     {
-        return  _cart.Lines.Count().ToString();  
-       
+        string userId = null;
+
+        if (HttpContext.User.Identity is ClaimsIdentity claimsIdentity)
+        {
+            var userIdClaim = claimsIdentity.FindFirst(ClaimTypes.Sid);
+
+            if (userIdClaim != null)
+            {
+                 userId = userIdClaim.Value;
+                    
+            }
+                
+        }
+        var cart = _cartService.GetCart(HttpContext, userId);
+
+        return cart.ProductOrders.Count().ToString() ?? "0";
     }
+    
 }

@@ -1,0 +1,85 @@
+﻿@model List<ReportDto>
+
+
+
+<div id="report" class="container mt-4 form">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+            <h2 class="mb-0">Order Reports</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Product</th>
+                            <th>Image</th>
+                            <th>Showcase</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Order date</th>
+                            <th>Shipped</th>
+                            <th>City</th>
+                            <th>Color</th>
+                            <th>User</th>
+                            <th>User Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td> @item.ProductName</td>
+                                <td><img class="img-thumbnail" src="@item?.ImageUrl" alt="@item?.ProductName" width="150" /></td>
+                                <td>@item.ShowCase</td>
+                                <td> @item.CategoryName</td>
+                                <td>@item.Price.Value.ToString("C0")</td>
+                                <td> @item.OrderedAtDate</td>
+                                <td> @item.Shipped</td>
+                                <td> @item.CityName</td>
+                                <td> @item.ColorName</td>
+                                <td> @item.UserName</td>
+                                <td> @item.RoleName</td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script defer src="/pluto-1.0.0/js/jquery.min.js"></script>
+<script src="/pluto-1.0.0/js/popper.min.js"></script>
+<script src="/pluto-1.0.0/js/bootstrap.min.js"></script>
+<!-- wow animation -->
+<script src="/pluto-1.0.0/js/animate.js"></script>
+<!-- select country -->
+<script src="/pluto-1.0.0/js/bootstrap-select.js"></script>
+<!-- owl carousel -->
+<script src="/pluto-1.0.0/js/owl.carousel.js"></script>
+<!-- chart js -->
+<script src="/pluto-1.0.0/js/Chart.min.js"></script>
+<script src="/pluto-1.0.0/js/Chart.bundle.min.js"></script>
+<script src="/pluto-1.0.0/js/utils.js"></script>
+<script src="/pluto-1.0.0/js/analyser.js"></script>
+<!-- nice scrollbar -->
+<script src="/pluto-1.0.0/js/perfect-scrollbar.min.js"></script>
+<script>
+    var ps = new PerfectScrollbar('#sidebar');
+</script>
+<!-- fancy box js -->
+<script src="/pluto-1.0.0/js/jquery-3.3.1.min.js"></script>
+<script src="/pluto-1.0.0/js/jquery.fancybox.min.js"></script>
+<!-- custom js -->
+<script src="/pluto-1.0.0/js/custom.js"></script>
+<!-- calendar file css -->
+<script src="/pluto-1.0.0/js/semantic.min.js"></script>
+<link href="~/lib/Alertifyjs/css/alertify.min.css" rel="stylesheet" />
+<script src="~/lib/Alertifyjs/alertify.min.js"></script>
+
+

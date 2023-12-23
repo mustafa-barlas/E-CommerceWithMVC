@@ -1,0 +1,137 @@
+﻿@model List<FavoriteModel>
+
+
+
+
+@{
+    ViewBag.Title = "Favorites";
+}
+
+<body class="animsition">
+
+    <!-- Header -->
+    <header class="header-v4">
+        <!-- Header desktop -->
+        <div class="container-menu-desktop">
+            <!-- Topbar -->
+
+
+
+        </div>
+
+        <!-- Header Mobile -->
+        <!-- Menu Mobile -->
+        <!-- Modal Search -->
+
+    </header>
+
+    <!-- Cart -->
+    <!-- Product -->
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="bg0 m-t-23 p-b-140">
+        <div class="container">
+
+            <div class="col-md-12 ">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col heading1 margin_0">
+                                        Favorites product
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>ProductName</th>
+                                    <th>Operations</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.ToList())
+                                {
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <a asp-controller="Product" asp-action="Get" asp-route-id="@item.ProductId">@item.ProductName</a>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="btn btn-group">
+                                                <a asp-route-productId="@item.ProductId"  asp-controller="Favorite" asp-action="RemoveFromFavorites" class="btn btn-danger">Remove</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                                </tbody>
+                                
+                            </table>
+                        </div>
+                        <div class="btn btn-group">
+                            <a asp-action="ClearFavorites" class="btn btn-danger">Clear All</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+</body>
+
+<script src="/pluto-1.0.0/js/jquery.min.js"></script>
+<script src="/pluto-1.0.0/js/popper.min.js"></script>
+<script src="/pluto-1.0.0/js/bootstrap.min.js"></script>
+<!-- wow animation -->
+<script src="/pluto-1.0.0/js/animate.js"></script>
+<!-- select country -->
+<script src="/pluto-1.0.0/js/bootstrap-select.js"></script>
+<!-- owl carousel -->
+<script src="/pluto-1.0.0/js/owl.carousel.js"></script>
+<!-- chart js -->
+<script src="/pluto-1.0.0/js/Chart.min.js"></script>
+<script src="/pluto-1.0.0/js/Chart.bundle.min.js"></script>
+<script src="/pluto-1.0.0/js/utils.js"></script>
+<script src="/pluto-1.0.0/js/analyser.js"></script>
+<!-- nice scrollbar -->
+<script src="/pluto-1.0.0/js/perfect-scrollbar.min.js"></script>
+<script>
+    var ps = new PerfectScrollbar('#sidebar');
+</script>
+<!-- fancy box js -->
+<script src="/pluto-1.0.0/js/jquery-3.3.1.min.js"></script>
+<script src="/pluto-1.0.0/js/jquery.fancybox.min.js"></script>
+<!-- custom js -->
+<script src="/pluto-1.0.0/js/custom.js"></script>
+<!-- calendar file css -->
+<script src="/pluto-1.0.0/js/semantic.min.js"></script>
+<link href="~/lib/Alertifyjs/css/alertify.min.css" rel="stylesheet" />
+<script src="~/lib/Alertifyjs/alertify.min.js"></script>
+
