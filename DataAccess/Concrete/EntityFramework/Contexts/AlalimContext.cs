@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using System.Reflection;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -35,10 +36,12 @@ public class AlalimContext : IdentityDbContext<IdentityUser>
         optionsBuilder.UseSqlServer("Server = MBARLAS\\SQLEXPRESS;DataBase = AlalimStore; Trusted_Connection=true ; TrustServerCertificate=True");
 
         //optionsBuilder.UseLazyLoadingProxies(); enable the Lazy loading
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(modelBuilder);
 
