@@ -5,36 +5,45 @@ using Microsoft.EntityFrameworkCore;
 namespace Core.DataAccess.EntityFramework;
 
 public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity> where TEntity : class, IEntity, new()
-where TContext : DbContext , new()
+where TContext : DbContext, new()
 {
 
 
     public TEntity? Get(Expression<Func<TEntity, bool>> filter, bool trackChanges)
     {
-        var context = new TContext();
-        return trackChanges
-            ? context.Set<TEntity>().SingleOrDefault(filter)
-            : context.Set<TEntity>().AsNoTracking().SingleOrDefault(filter);
+        using (var context = new TContext())
+        {
+            
+            return trackChanges
+                ? context.Set<TEntity>().SingleOrDefault(filter)
+                : context.Set<TEntity>().AsNoTracking().SingleOrDefault(filter);
+        }
 
     }
 
-    
+
 
     public IQueryable<TEntity> FindAllWithAsNoTracking(bool trackChanges)
     {
-        var context = new TContext();
-        return trackChanges
-            ? context.Set<TEntity>()
-            : context.Set<TEntity>().AsNoTracking();
+        using (var context = new TContext())
+        {
+            
+            return trackChanges
+                ? context.Set<TEntity>()
+                : context.Set<TEntity>().AsNoTracking();
+        }
     }
 
-    public TEntity? FindByConditionAndAsNoTracking(Expression<Func<TEntity, bool>> expression , bool trackChanges)
+    public TEntity? FindByConditionAndAsNoTracking(Expression<Func<TEntity, bool>> expression, bool trackChanges)
     {
-        var context = new TContext();
-        return trackChanges
-            ? context.Set<TEntity>().Where(expression).SingleOrDefault()
-            : context.Set<TEntity>().Where(expression).AsNoTracking().SingleOrDefault();
-        
+        using (var context = new TContext())
+        {
+
+            return trackChanges
+                ? context.Set<TEntity>().Where(expression).SingleOrDefault()
+                : context.Set<TEntity>().Where(expression).AsNoTracking().SingleOrDefault();
+        }
+
     }
 
     public void Add(TEntity entity)
@@ -70,9 +79,11 @@ where TContext : DbContext , new()
 
     public void Update(TEntity entity)
     {
-        var context = new TContext();
-        var updatedEntity = context.Entry(entity);
-        updatedEntity.State = EntityState.Modified;
-        context.SaveChangesAsync();
+        using (var context = new TContext())
+        {
+            var updatedEntity = context.Entry(entity);
+            updatedEntity.State = EntityState.Modified;
+            context.SaveChangesAsync();
+        }
     }
 }
